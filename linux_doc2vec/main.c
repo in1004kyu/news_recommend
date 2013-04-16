@@ -1,6 +1,8 @@
 #include<stdlib.h>
 #include"header/ham-ndx.h"
 
+#include"gtt.h"
+
 #define TID_TABLE_PATH "tid_table.txt"
 #define TEMPORARY_PATH "temporary.txt"
 #define DOC_VEC_PATH "doc_vec.txt"
@@ -147,62 +149,30 @@ HAM_RUNMODE mode;
 
 
 /*---------------------------=================----------------------------*/
-void update_tid_table(HAM_TERMLIST term[],int n,unsigned char ts[])
+void update_tid_table(HAM_TERMLIST term[],int n,unsigned char ts[],gtt_ctx_t *pctx)
 {
-	FILE *fpoutf=fopen(TID_TABLE_PATH,"r+");
-	FILE *ftoutf=fopen(TEMPORARY_PATH,"w");
-	char line[MAX_COLS];
-	int tid=0;
-	int t_tid;
-	int freq;
-	int score;
-	char one_term[MAX_COLS];
 	int i;
-	int catch_flag=0;
-		
-	
-	for(i = 0; i < n; i++){
-		while (fgets(line, MAX_COLS, fpoutf) != NULL) {
-			sscanf(line,"%d %u %s",&tid,&freq,one_term);
-			if( strcmp( one_term, ts+term[i].offset) == 0 ){
-				printf( "%s with %s = %d\n", one_term, ts+term[i].offset  , strcmp( one_term, ts+term[i].offset) );
-				catch_flag=1;
-				fprintf(ftoutf, "%3d %5u  %s\n",
-					tid,
-					term[i].tf+freq,			/* 용어의 빈도수 */
-					//term[i].score,		/* 용어의 가중치 %6u*/
-					ts+term[i].offset);	/* ts+term[i].offset : 용어 스트링 */
-				break;
-			}
-		}
-		if(catch_flag != 1 ){
-			fprintf(ftoutf, "%3d %5u  %s\n",
-				tid+1,
-				term[i].tf,			/* 용어의 빈도수 */
-				//term[i].score,		/* 용어의 가중치 %6u*/
-				ts+term[i].offset);	/* ts+term[i].offset : 용어 스트링 */
-			fprintf(fpoutf, "%3d %5u  %s\n",
-				tid+1,
-				term[i].tf,			/* 용어의 빈도수 */
-				//term[i].score,		/* 용어의 가중치 %6u*/
-				ts+term[i].offset);	/* ts+term[i].offset : 용어 스트링 */
-		}
-		catch_flag = 0;
-		fseek ( fpoutf , 0 , SEEK_SET );
+	int error_flag;
+
+	error_flag = gtt_open(pctx);
+	if( error_flag < 0 ){
+		printf("ERROR %d\n", error_flag);
+		return;
 	}
-
-	fclose(fpoutf);
-	fclose(ftoutf);
-
-	remove(TID_TABLE_PATH);
-	rename(TEMPORARY_PATH,TID_TABLE_PATH);
-
+	for(i = 0; i < n; i++){
+		gtt_update_term_count(pctx,(ts+term[i].offset),term[i].tf);// score == doc_vec's tid
+	}
+	error_flag = gtt_close(pctx);
+	if( error_flag < 0 ){
+		printf("ERROR %d\n", error_flag);
+		return;
+	}
+	printf("update term table!!\n");
 }
 
 void create_document_vector(HAM_TERMLIST term[],int n,unsigned char ts[])
 {
-	FILE *fpoutf=fopen(TID_TABLE_PATH,"r");
-	FILE *fpoutv=fopen(DOC_VEC_PATH,"w");
+	FILE *fp_v=fopen(DOC_VEC_PATH,"w");
 	char line[MAX_COLS];
 	int tid=0;
 	int t_tid;
@@ -212,20 +182,11 @@ void create_document_vector(HAM_TERMLIST term[],int n,unsigned char ts[])
 	int i;
 
 	for(i = 0; i < n; i++){
-		while (fgets(line, MAX_COLS, fpoutf) != NULL) {
-			sscanf(line,"%d %u %s",&tid,&freq,one_term);
-			if( strcmp( one_term, ts+term[i].offset) == 0 ){
-				printf( "%s with %s = %d\n", one_term, ts+term[i].offset  , strcmp( one_term, ts+term[i].offset) );
-				fprintf(fpoutv, "%3d %5u\n",
-					tid,
-					freq		/* 용어의 빈도수 */
-					);	
-			}
-		}
-		fseek ( fpoutf , 0 , SEEK_SET );
+		fprintf(fp_v, "%3d %5u\n",
+				term[i].score,
+				term[i].tf);	
 	}
-	fclose(fpoutf);
-	fclose(fpoutv);
+	fclose(fp_v);
 }
 /*---------------------------=================----------------------------*/
 
@@ -284,6 +245,7 @@ void create_document_vector(HAM_TERMLIST term[],int n,unsigned char ts[])
 int main(int argc, char *argv[])
 {
 	FILE *fpin=stdin, *fpout=stdout , *fpoutf=fopen(OUTPUT_PATH,"w");
+	gtt_ctx_t gttctx;
 
 	char *optstr=NULL;	/* option string: e.g. "1apVC", "pVc" */
 	HAM_RUNMODE mode;	/* HAM running mode: 'header/runmode.h' */
@@ -334,8 +296,8 @@ int main(int argc, char *argv[])
 
 	/*our project */
 
-//	update_tid_table(Term,n,TM.memTermString);
-//	create_document_vector(Term, n, TM.memTermString);
+	update_tid_table(Term,n,TM.memTermString,&gttctx);
+	create_document_vector(Term, n, TM.memTermString);
 	
 
 
