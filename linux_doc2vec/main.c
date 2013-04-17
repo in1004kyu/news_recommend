@@ -149,7 +149,7 @@ HAM_RUNMODE mode;
 
 
 /*---------------------------=================----------------------------*/
-void update_tid_table(HAM_TERMLIST term[],int n,unsigned char ts[],gtt_ctx_t *pctx)
+/*void update_tid_table(HAM_TERMLIST term[],int n,unsigned char ts[],gtt_ctx_t *pctx)
 {
 	int i;
 	int error_flag;
@@ -168,7 +168,7 @@ void update_tid_table(HAM_TERMLIST term[],int n,unsigned char ts[],gtt_ctx_t *pc
 		return;
 	}
 	printf("update term table!!\n");
-}
+}*/
 
 void create_document_vector(HAM_TERMLIST term[],int n,unsigned char ts[])
 {
@@ -296,7 +296,7 @@ int main(int argc, char *argv[])
 
 	/*our project */
 
-	update_tid_table(Term,n,TM.memTermString,&gttctx);
+//	update_tid_table(Term,n,TM.memTermString,&gttctx);
 	create_document_vector(Term, n, TM.memTermString);
 	
 
