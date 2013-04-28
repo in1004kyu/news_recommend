@@ -69,8 +69,6 @@ float nve(struct vector_list dvl, struct vector_list pdvl_subset, int pdvl_full_
 	for(i = 0; i< dvl.length; i++)
 		dvl_cnt_sum += dvl.vectors[i].count;
 
-	printf("%d %d\n", pdvl_cnt_sum, dvl_cnt_sum);
-
 	frequencies = (float **)malloc(sizeof(float*)*2);
 
 	for(i = 0; i<2; i++)
@@ -81,7 +79,6 @@ float nve(struct vector_list dvl, struct vector_list pdvl_subset, int pdvl_full_
 			for(h = 0; h < pdvl_subset.length; h++){
 				if(dvl.vectors[i].id == pdvl_subset.vectors[h].id){
 					frequencies[DIVIDEND][frequency_index] = (float)pdvl_subset.vectors[h].count;
-					printf("%f\n", frequencies[DIVIDEND][frequency_index]);
 					frequencies[DIVISOR][frequency_index] = (float)pdvl_cnt_sum;
 					frequency_index++;
 					islaplace = AVAILABLE;
@@ -90,15 +87,12 @@ float nve(struct vector_list dvl, struct vector_list pdvl_subset, int pdvl_full_
 		    	} 
 			}
 			if(islaplace == NOTAVAILABLE){
-				printf("id is %d %d\n", dvl.vectors[i].id, pdvl_subset.vectors[h].id);
 				frequencies[DIVIDEND][frequency_index] = (float)1;
 				frequencies[DIVISOR][frequency_index] = (float)2;
-				printf("%f\n", frequencies[DIVIDEND][frequency_index]);
 				frequency_index++;
 
 			}
 			islaplace = NOTAVAILABLE;
-
 		}
 	}
 
