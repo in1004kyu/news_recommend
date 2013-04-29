@@ -12,11 +12,11 @@
 gtt_status_t gtt_open( gtt_ctx_t *pctx,char *filename) 
 {
 	pctx->gtt_fd	= fopen( filename, "w+");
-	if( pctx->gtt_fd )
+	if( pctx->gtt_fd == NULL )
 		return GTT_STATUS_ERROR_FILEOPEN;
 	return GTT_STATUS_SUCCESS;
 }
- 
+
 gtt_status_t gtt_close( gtt_ctx_t *pctx) 
 {
 	close(pctx->gtt_fd);

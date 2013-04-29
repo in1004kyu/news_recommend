@@ -6,6 +6,7 @@
 
 
 #include<stdio.h>
+#include"document_vector.h"
 
 /* API status
  * return values must be one of these

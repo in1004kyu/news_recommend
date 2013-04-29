@@ -13,7 +13,7 @@ gtt_status_t gtt_add_term(gtt_ctx_t *pctx, gtt_tid_t tid, gtt_term_t term);
  
 gtt_status_t gtt_open( gtt_ctx_t *pctx,char *filename) 
 {
-	pctx->gtt_fp	= fopen( filename, "rw");
+	pctx->gtt_fp	= fopen( filename, "rw+");
 	if( pctx->gtt_fp == NULL )
 		return GTT_STATUS_ERROR_FILEOPEN;
 	return GTT_STATUS_SUCCESS;

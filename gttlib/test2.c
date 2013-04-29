@@ -15,8 +15,8 @@ void main(void)
 		
 		// update term and count for "hello"
 		// TID has the TID value for the term
-		gtt_update_term(&gtt, "test", &TID);
-		printf("Term : 'test' , TID : %d\n",TID);
+//		gtt_update_term(&gtt, "test", &TID);
+//		printf("Term : 'test' , TID : %d\n",TID);
 		gtt_update_term(&gtt, "hello", &TID);
 		printf("Term : 'hello' , TID : %d\n",TID);
 		gtt_update_term(&gtt, "world", &TID);
