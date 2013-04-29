@@ -38,7 +38,7 @@ test() {
 nve_handle = nve_parallel( dv[], pdvl[], pdvl_cnt[], int num_dv, nvep_callback)
 {
 	float scores[]
-	for ( i = 0; i < num_dv; i++ ) {
+	for ( i = 0; i &lt; num_dv; i++ ) {
 		scores[i] = __nve(dv[i], pdvl[i], pdvl_cnt[i] );
 	}
 	nve_set_scores( handle, scores );
@@ -52,7 +52,7 @@ nve_handle = nve_parallel( dv[], pdvl[], pdvl_cnt[], int num_dv, nvep_callback)
 nve_handle = nve_parallel( dv[], pdvl[], pdvl_cnt[], int num_dv, nvep_callback)
 {
 	float scores[]
-	for ( i = 0; i < num_dv; i++ ) {
+	for ( i = 0; i &lt; num_dv; i++ ) {
 		scores[i] = __cuda_nve(dv[i], pdvl[i], pdvl_cnt[i] );
 	}
 	//nvep_callback( num_dv, dv[], pdvl[], NVE_SUCCEED, scores[] );
