@@ -25,8 +25,8 @@ pdvl_status_t pdvl_open( pdvl_ctx_t *pctx,char *filename)
 pdvl_status_t pdvl_close( pdvl_ctx_t *pctx ) 
 {
 	/* pdvl_fp와 연결된 파일 이 최종 pdvl파일이 된다.*/
-	close(pctx->pdvl_fp);
-	close(pctx->temp_fp);
+	fclose(pctx->pdvl_fp);
+	fclose(pctx->temp_fp);
 	if( pctx->swap_flag == 0){
 		remove(TEMPFILENAME);
 	}

@@ -1,7 +1,7 @@
 #include "pdvl.h"
 #include<stdio.h>
 
-void main(void)
+int main(void)
 {
 	pdvl_ctx_t pdvl;
 	pdvl_status_t ret;
@@ -30,5 +30,6 @@ void main(void)
 		}
 		pdvl_close(&pdvl);
 	}
+	return 0;
 }
 
