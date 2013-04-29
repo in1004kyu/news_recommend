@@ -25,18 +25,19 @@ Data Types
 - struct d2v_element
     - 정확한 이름은 D2V API Design Document서 결정된 내용을 사용하게 된다
     - 즉, d2v.h를 #include 하여 사용한다
-
+<pre>
 struct d2v_element {
 	int id;          // term id
 	int count;       // count
 };
-
+</pre>
 - struct d2v_vector
+<code>
 struct d2v_vector{
 	int length;      // number of elements
 	struct d2v_element* elements;
 };
-
+</pre>
 Functions
 ---------
 
@@ -52,5 +53,6 @@ Functions
         - We assume the following constraint due to performance and memory usage issues 
         - dv.length <= approx. 10K 
         - pdvl.length <= approx. 10K (80KB) 
-
+<pre>
 float nve(struct vector_list dvl, struct vector_list* pdvl_subset, int pdvl_full_length);
+</pre>
