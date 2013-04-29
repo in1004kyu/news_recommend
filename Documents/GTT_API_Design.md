@@ -76,3 +76,14 @@ Functions
         - char *newterm = "new"
         - gtt_update_term(&gtt_ctx,newterm,&newtid)
 
+- gtt_status_t gtt_close( gtt_ctx_t *pctx)
+    -<i> GTT 오버레이션의 작업이 실행되었던 열었던 테이블 파일을 닫는다.</i>
+    - Input
+        - gtt_ctx_t *pctx : 라이브러리에서 공유할 데이터를 저장한 gtt 데이터 타입에 대한 포인터
+    - Return
+        - gtt status 타입에 정의 된 내용 값 반환
+    - Discussion
+        - 예 :
+        - gtt_ctx_t gtt_ctx
+        - gtt_close(&gtt_ctx)
+    
