@@ -42,6 +42,10 @@ enum gtt_status_t{
 
 typedef char* gtt_term_t;
 
+- gtt_tid_t : gtt library에서 document tid 을 다루는 데이터 타입, unsigned int 로 정의되어 있다.
+
+typedef unsigned int gtt_term_t;
+
 Functions
 ---------
 ---함수목록---
