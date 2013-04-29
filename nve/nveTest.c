@@ -30,12 +30,14 @@ int main(){
 	struct vector_list pdvl_subset;
 	init(&pdvl, PDVL_COUNT);
 	init(&dvl, DVL_COUNT);
-	init(&pdvl_subset, PDVLSUB_COUNT);
+
+	dvl.vectors[0].id = 100;
 
 	printf("--personal document vector list--\n");
 	vector_print(pdvl);
 	printf("--input document vector list--\n");
 	vector_print(dvl);
+
 
 	printf("score is %f\n",nve(dvl, pdvl, PDVL_COUNT) );
 
