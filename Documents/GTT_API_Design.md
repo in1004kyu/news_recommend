@@ -9,7 +9,7 @@ Revision History
 
 Module Repository Information
 -----------------------------
-- Directory: <src>/gttlib
+- Directory: lt;src&gt;/gttlib
 - Headers: gtt.h
 
 
@@ -24,27 +24,35 @@ Data Types
     - GTT의 각 함수 사용 시 GTT file 에 대한 포인터를 저장
     - API function 을 사용하기 전에 정의하고 포인터를 함수로 인자로 사용
 
+<pre>
 struct gtt_ctx_t {
   FILE *gtt_fp;  
 };
+</pre>
 
 - enum gtt_status_t
     - GTT 각 함수의 리턴 값에 대한 정의 
     - 에러 종류 판단에 사용
 
+<pre>
 enum gtt_status_t{
   GTT_STATUS_SUCCESS = 1,
   GTT_STATUS_ERROR_UNKNOWN = -1,
   GTT_STATUS_ERROR_FILEOPEN = -2,
 }
+</pre>
 
 - gtt_term_t : gtt library에서 document term을 다루는 데이터 타입, char* 로 정의되어 있다.
 
+<pre>
 typedef char* gtt_term_t;
+</pre>
 
 - gtt_tid_t : gtt library에서 document tid 을 다루는 데이터 타입, unsigned int 로 정의되어 있다.
 
+<pre>
 typedef unsigned int gtt_term_t;
+</pre>
 
 Functions
 ---------
