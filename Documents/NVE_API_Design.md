@@ -32,7 +32,7 @@ struct d2v_element {
 };
 </pre>
 - struct d2v_vector
-<code>
+<pre>
 struct d2v_vector{
 	int length;      // number of elements
 	struct d2v_element* elements;
