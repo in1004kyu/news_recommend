@@ -7,6 +7,8 @@
 
 #define MAX_LINE 32768
 
+gtt_status_t gtt_add_term(gtt_ctx_t *pctx, gtt_tid_t tid, gtt_term_t term);
+
 /********************** gtt_naive.c **********************/
  
 gtt_status_t gtt_open( gtt_ctx_t *pctx,char *filename) 
@@ -23,7 +25,7 @@ gtt_status_t gtt_close( gtt_ctx_t *pctx)
 	return GTT_STATUS_SUCCESS;
 }
 
-gtt_status_t gtt_add_ctx_to_gtt_table(gtt_ctx_t *pctx, gtt_tid_t tid ,gtt_term_t term)
+gtt_status_t gtt_add_term(gtt_ctx_t *pctx, gtt_tid_t tid ,gtt_term_t term)
 {
 	fprintf(pctx->gtt_fp, "%3d  %s\n", tid,term);
 	return GTT_STATUS_SUCCESS;
@@ -49,7 +51,7 @@ gtt_status_t gtt_update_term(gtt_ctx_t *pctx, gtt_term_t doc_term,gtt_tid_t *TID
 	// unmatch tid table term and document term, add new line
 	if(match_flag != 1 ){
 		*TID = ++tid;
-		gtt_add_ctx_to_gtt_table(pctx,tid,doc_term);
+		gtt_add_term(pctx,tid,doc_term);
 	}
 	fseek( pctx->gtt_fp, 0, SEEK_SET ); // gtt file point reset
 

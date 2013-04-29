@@ -1,0 +1,39 @@
+Contents
+=======
+- Project Goal
+- Software Components
+- Per Component Progress
+    - D2V Library
+    - PDVL Library
+    - NVE Library
+    - NVE CUDA Acceleration
+    - Trainer Integration 
+    - Evaluation Integration
+    - Anything Missing?
+- D2V Library
+    - 김형준 @dudnwjs 
+    - API Design: #2 Document of Data Types, Function Prototypes and Description
+    - Library Implementation: Source Code
+    - Integration Test/Debug: <TBA> At Trainer/Evaluation Daemon Integration Phase
+- PDVL Library
+    - 김형준 @dudnwjs 
+    - API Design: #3  Document of Data Types, Function Prototypes and Description
+    - Library Implementation: Source Code
+    - Integration Test/Debug: <TBA> At Trainer/Evaluation Daemon Integration Phase
+- NVE Library
+    - 한인규 @in1004kyu 
+    - API Design Status : #4  Document of Data Types, Function Prototypes and Description
+    - Library Implementation Status:<TBA> Source Code
+    - Integration Test/Debug: <TBA> At Evaluation Daemon Integration Phase
+- NVE CUDA Acceleration
+    - 김상모 @simonkim
+    - Module Implementation: #8 
+    - Integration Test/Debug: <TBA> At Evaluation Daemon Integration Phase
+- Trainer Integration
+    - Program Implementation Status
+    - Integration of D2V, PDVL, Input Data and Output Data Processing
+    - Responsibility: TBA
+- Evaluation Daemon Integration
+    - Program Implementation Status
+    - Integration of D2V, PDVL, NVE, Input Data and Output Data Processing
+    - Responsibility: TBA
