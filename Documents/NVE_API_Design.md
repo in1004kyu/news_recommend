@@ -5,11 +5,12 @@ Revision History
 ----------------
 - Apr. 17th 2013, Initial Draft
 - Apr. 29th 2013, Design Document Format Re-organized
+- Apr. 29th 2013, modification source location info
 
 
 Module Repository Information
 -----------------------------
-- Directory: <src>/nve
+- Directory: <src>/nve.c
 - Headers: nve.h
 
 
@@ -27,6 +28,7 @@ Data Types
 // To be defined by D2V Module (형준)
 // struct vector and vector_list
 // Suggested names: struct d2v_vector, struct d2v_vector_list
+// 형준이 헤더가 정의되면 삭제될 예정
 
 struct vector {
 	int id;
