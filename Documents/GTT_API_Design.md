@@ -38,6 +38,10 @@ enum gtt_status_t{
   GTT_STATUS_ERROR_FILEOPEN = -2,
 }
 
+- gtt_term_t : gtt library에서 document term을 다루는 데이터 타입, char* 로 정의되어 있다.
+
+typedef char* gtt_term_t;
+
 Functions
 ---------
 ---함수목록---
@@ -48,14 +52,27 @@ Functions
 - gtt_status_t gtt_open( gtt_ctx_t *pctx, char *filename)
     - <i> 다른 오버레이션(함수)의 작업이 실행될 테이블 파일을 연다. 인자 중 filename 이 테이블 파일의 위치를 나타낸다.</i>
     - Input
-        - gtt_ctx_t *pctx : 라이브러리에서 공유할 데이터를 저장한 gtt 데이터 타입에 대한 포인터 (현재는 파일포인터)
+        - gtt_ctx_t *pctx : 라이브러리에서 공유할 데이터를 저장한 gtt 데이터 타입에 대한 포인터 (파일포인터)
         - char *filename : 라이브러리에서 사용할 테이블 파일 위치 정보
     - Return
-        - gtt status 타입 예정의 된 내용값 반환
+        - gtt status 타입에 정의 된 내용 값 반환
     - Discussion
         - 예: 
         - gtt_ctx_t gtt_ctx
-        - gtt_open(&gtt_ctx)
+        - gtt_open(&gtt_ctx, "default.gtt")
 
-
+- gtt_status_t gtt_update_term(gtt_ctx_t *pctx, gtt_term_t doc_term, gtt_tid_t *TID)
+    - <i> Global Tid Table에 Term을 업데이트 한다. 만약 입력 단어가 테이블에 없는 단어라면 새로운 TID를 생성한다. 함수인자 중 TID 포인터 값에 새로 생성된 TID 혹은 이미 생성된 TID 값이 들어간다. </i>
+    - Input
+        - gtt_ctx_t *pctx : 라이브러리에서 공유할 데이터를 저장한 gtt 데이터 타입에 대한 포인터
+        - gtt_term_t doc_term : 입력 단어, GTT의 단어 목록과 비교할 단어
+        - gtt_tid_t *TID : 입력 단어에 대한 TID 포인터, GTT에 같은 단어 존재 시 이미 존재하는 TID를 삽입, 새로운 단어가 출현 시 새로운 TID를 생성하여 삽입
+    - Return
+        - gtt status 타입에 정의 된 내용 값 반환
+    - Discussion
+        - 예 :
+        - gtt_ctx_t gtt_ctx
+        - gtt_tid_t newtid
+        - char *newterm = "new"
+        - gtt_update_term(&gtt_ctx,newterm,&newtid)
 
