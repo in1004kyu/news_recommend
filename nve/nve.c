@@ -22,37 +22,37 @@ before subset extraction. Used as input parameter to Naive Bayesian Calculation 
 #define NOTAVAILABLE 0
 #define AVAILABLE 1
 
-float nve(struct vector_list dvl, struct vector_list pdvl_subset, int pdvl_full_length){
+float nve(struct d2v_vector dv, struct d2v_vector pdvl_subset, int pdvl_full_length){
 	float** frequencies;
 	int pdvl_cnt_sum = 0;
 	int frequency_index = 0;
 	int i, j, h;
-	int dvl_cnt_sum = 0;
+	int dv_cnt_sum = 0;
 	int islaplace = NOTAVAILABLE;
 
 	float result_dividend = 1;
 	float result_divisor = 1;
 
-	if(dvl.length == 0){
+	if(dv.length == 0){
 		return 0;
 	}
 
 	for(i = 0; i < pdvl_subset.length; i++)
-		pdvl_cnt_sum += pdvl_subset.vectors[i].count;
+		pdvl_cnt_sum += pdvl_subset.elements[i].count;
 
-	for(i = 0; i< dvl.length; i++)
-		dvl_cnt_sum += dvl.vectors[i].count;
+	for(i = 0; i< dv.length; i++)
+		dv_cnt_sum += dv.elements[i].count;
 
 	frequencies = (float **)malloc(sizeof(float*)*2);
 
 	for(i = 0; i<2; i++)
-		frequencies[i] = (float *)malloc(sizeof(float)*dvl_cnt_sum);
+		frequencies[i] = (float *)malloc(sizeof(float)*dv_cnt_sum);
 
-	for(i = 0; i< dvl.length; i++){
-		for(j = 0; j< dvl.vectors[i].count; j++){
+	for(i = 0; i< dv.length; i++){
+		for(j = 0; j< dv.elements[i].count; j++){
 			for(h = 0; h < pdvl_subset.length; h++){
-				if(dvl.vectors[i].id == pdvl_subset.vectors[h].id){
-					frequencies[DIVIDEND][frequency_index] = (float)pdvl_subset.vectors[h].count;
+				if(dv.elements[i].id == pdvl_subset.elements[h].id){
+					frequencies[DIVIDEND][frequency_index] = (float)pdvl_subset.elements[h].count;
 					frequencies[DIVISOR][frequency_index] = (float)pdvl_cnt_sum;
 					frequency_index++;
 					islaplace = AVAILABLE;
@@ -70,7 +70,7 @@ float nve(struct vector_list dvl, struct vector_list pdvl_subset, int pdvl_full_
 		}
 	}
 
-	for(i = 0; i < dvl_cnt_sum; i++){
+	for(i = 0; i < dv_cnt_sum; i++){
 		result_dividend *= frequencies[DIVIDEND][i];
 		result_divisor  *= frequencies[DIVISOR][i];
 	}
