@@ -45,5 +45,6 @@ Functions
         - (d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )
 
 float nvmuldiv( float numerators[], float denominators[], int len);
+
 float nvmuldiv_cuda_thrust( float numerators[], float denominators[], int len);
 
