@@ -1,7 +1,11 @@
 #include "gtt.h"
 #include<stdio.h>
 
-void main(void)
+/*
+ * return type changed to int to avoid the compiler warning
+ * - simon
+ */
+int main(int argc, char **argv)
 {
 	gtt_ctx_t gtt;
 	gtt_status_t ret;
@@ -28,6 +32,15 @@ void main(void)
 		gtt_update_term(&gtt, "name", &TID);
 		printf("Term : 'name' , TID : %d\n",TID);
 
+		{
+			int i = 1;
+			while ( i < argc ) {
+				gtt_update_term( &gtt, argv[i], &TID );
+				printf("Term : '%s' , TID : %d\n", argv[i], TID);
+				i++;
+			}
+		}
 		gtt_close(&gtt);
 	}
+	return 0;
 }

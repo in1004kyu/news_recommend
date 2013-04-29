@@ -1,7 +1,7 @@
 #include "gtt.h"
 #include<stdio.h>
 
-void main(void)
+int main(int argc, char *argv[])
 {
 	gtt_ctx_t gtt;
 	gtt_status_t ret;
@@ -30,4 +30,5 @@ void main(void)
 
 		gtt_close(&gtt);
 	}
+	return 0;
 }
