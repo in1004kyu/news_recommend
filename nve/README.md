@@ -15,7 +15,7 @@ id / count
 1 / 3
 2 / 2
 3 / 4
---input document vector list--
+--input document vector--
 id / count
 100 / 3
 1 / 2
