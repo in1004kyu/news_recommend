@@ -22,27 +22,27 @@ N/A
 
 Functions
 ---------
-- float nvmuldiv( numerators, denominators, len )
+- <code>float nvmuldiv( numerators, denominators, len )</code>
     - Performs the primitive Naive Bayesian Probability Calculation
     - Input
         - numerators Input Array of numerators
         - denominators Input Array of denominators
         - len number of elements in numerators[] and denominators[]
     - Return
-        - (d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )
+        - <code>(d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )</code>
     - Discussion
         - Current Implementation Performs Calculations on the HOST CPU
         - nvmuldiv_cuda_thrust() Performs the Equivalent Calculations on CUDA using thrust library
         - The Final Implementation Will Perform on CUDA (Or, configured by a build time flag)
 
-- float nvmuldiv_cuda_thrust( numerators, denominators, len )
+- <code>float nvmuldiv_cuda_thrust( numerators, denominators, len )</code>
     - Explicitly Performs the primitive Naive Bayesian Probability Calculation on CUDA using thrust library
     - Input
         - numerators Input Array of numerators
         - denominators Input Array of denominators
         - len number of elements in numerators[] and denominators[]
     - Return
-        - (d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )
+        - <code>(d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )</code>
 
 <pre>
 float nvmuldiv( float numerators[], float denominators[], int len);
