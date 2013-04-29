@@ -22,7 +22,7 @@ typedef enum {
  * Global Term Id table Context Type
  */
 typedef struct {
-	FILE *gtt_fd;
+	FILE *gtt_fp;
 } gtt_ctx_t;	
 
 typedef char* gtt_term_t;
