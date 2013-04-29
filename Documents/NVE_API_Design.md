@@ -55,4 +55,5 @@ Functions
         - We assume the following constraint due to performance and memory usage issues 
         - dvl.length <= approx. 10K 
         - pdvl.length <= approx. 10K (80KB) 
+
 float nve(struct vector_list dvl, struct vector_list* pdvl_subset, int pdvl_full_length);
