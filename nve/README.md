@@ -8,7 +8,23 @@ How to run the test program
 ===========================
 <pre>
 $ ./nve
+
+--personal document vector list--
+id / count
+0 / 4
+1 / 3
+2 / 2
+3 / 4
+--input document vector--
+id / count
+100 / 3
+1 / 2
+2 / 2
+36.000000 228488.000000
+score is 0.000158
 </pre>
+
+
 
 nve.h
 =======
