@@ -20,23 +20,18 @@ D2V를 통해서 생성된 Document Vector와 지정된 PDVL간의 유사도를 
 
 Data Types
 ----------
-- struct vector
+임시로 d2v_element와 d2v_vector type을 정의해서 사용하고 있음. D2V API Desgin이 완료되면 그에 따른 data type을 사용하게 되고, 아래에 정의된 data type은 삭제된다.
+
+- struct d2v_element
     - 정확한 이름은 D2V API Design Document서 결정된 내용을 사용하게 된다
     - 즉, d2v.h를 #include 하여 사용한다
-
-
-// To be defined by D2V Module (형준)
-// struct vector and vector_list
-// Suggested names: struct d2v_vector, struct d2v_vector_list
-// 형준이 헤더가 정의되면 삭제될 예정
 
 struct d2v_element {
 	int id;          // term id
 	int count;       // count
 };
 
-- struct vector_list
-// D2V
+- struct d2v_vector
 struct d2v_vector{
 	int length;      // number of elements
 	struct d2v_element* elements;
