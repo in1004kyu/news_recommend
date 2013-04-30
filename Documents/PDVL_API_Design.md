@@ -109,7 +109,7 @@ Functions
         - pdvl_ctx_t *pctx : 라이브러리에서 공유할 데이터를 저장한 pdvl 데이터 타입에 대한 포인터
         - pdvl_tid_t tid : 입력 TID, PDVL의 TID 목록과 비교할 TID
     - Return
-        - pdvl_count_t 타입의 TID의 count를 반환, TID가 없을 시 -1을 리턴한다.
+        - pdvl_count_t 타입의 TID의 count를 반환, TID가 없을 시 -1을 리턴
     - Discussion
         - 예:
         - pdvl_ctx_t pdvl_ctx
