@@ -99,6 +99,6 @@ Functions
         - gtt status 타입에 정의 된 내용 값 반환
     - Discussion
         - 예 :
-        - gtt_ctx_t gtt_ctx
-        - gtt_close(&gtt_ctx)
+        - pdvl_ctx_t pdvl_ctx
+        - pdvl_close(&pdvl_ctx)
     
