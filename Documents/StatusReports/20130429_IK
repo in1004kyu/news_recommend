@@ -1,0 +1,14 @@
+한인규
+2013년 4월 29일
+
+최종목표 : nve를 사용하여 추천한 뉴스 링크를 보여주는것
+세부목표 :  nve 연산 정의 및 구현 (done)
+                  nve 연산을 cuda의 연산을 사용해서 구현 (yet)
+ 
+현재까지 nve 함수 정의, 구현 (nve api 구현)을 했습니다.
+아직 형준이와 자료구조 통합은 안했습니다.
+cuda 사용법을 봐야합니다.
+
+nve 사용법 -> document vector list (새로 들어오는 vecotr list)와 personel document vector_subset list(personel vector list 중에 document vector list와 같은 크기로 자른 리스트 -> 이후 메모리 문제때문), pdvl_full_length (personel document vector list의 전체길이) 를 인자를 넣으면
+
+스코어를 리턴합니다.
