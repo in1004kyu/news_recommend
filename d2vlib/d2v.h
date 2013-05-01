@@ -31,7 +31,7 @@ typedef enum {
  * Context Type
  */
 typedef struct {
-	FILE *d2v_fp;
+	char *username;
 	document_vector_t *dvp;
 } d2v_ctx_t;	
 
