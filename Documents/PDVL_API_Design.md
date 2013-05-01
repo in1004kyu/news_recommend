@@ -10,7 +10,8 @@ Revision History
 Module Repository Information
 -----------------------------
 - Directory: /pdvllib
-- Headers: pdvl.h
+- Headers: pdvl.h 
+- Source: pdvl_naive.c 
 
 
 Module Description
@@ -26,10 +27,10 @@ Data Types
 
 <pre>
 struct pdvl_ctx_t {
-  char *pdvl_filename;
-  FILE *pdvl_fp;  
-  FILE *temp_fp;
-  int swap_flag;
+  char *pdvl_filename;  // Save pdvl filename
+  FILE *pdvl_fp;  	// pdvl file pointer
+  FILE *temp_fp;	// pdvl temp file pointer
+  int swap_flag;	// file pointer swap 상황을 저장.
   document_vector_t *pdv;
 };
 </pre>
@@ -63,6 +64,7 @@ Functions
  1. open : PDVL library 사용 기위 해 personalize document vector list file 을 open
  2. update count : PDVL 에 TID를 추가하고, count 업데이트
  3. close : PDVL library 사용종료를 위해 close
+ 4. get count : PDVL  에저장 된TID
 
 - pdvl_status_t pdvl_open( pdvl_ctx_t *pctx, char *filename)
     - <i> 다른 오버레이션(함수)의 작업이 실행될 리스트 파일을 연다. 인자 중 filename 이 테이블 파일의 위치를 나타낸다.</i>

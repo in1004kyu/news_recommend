@@ -13,7 +13,7 @@
  */
 typedef enum {
 	PDVL_STATUS_SUCCESS = 1,
-	PDVL_STATUS_FIAL = 0,
+	PDVL_STATUS_FAIL = 0,
 	/* add as implementation progresses */
 } pdvl_status_t;
 
