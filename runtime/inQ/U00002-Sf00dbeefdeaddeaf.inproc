@@ -1,0 +1,7 @@
+# Sample Input Text
+# File Name: <USER_ID>-<HASH>.<ext>
+#	USER_ID: System Global User ID
+#	HASH: Hash of content text, i.e.: MD5 Digest
+#	ext: txt: Input Text
+#	     inproc: Currently Handled by the daemon
+# Example::U00001-Sdeaddeafbeeff00d.txt
