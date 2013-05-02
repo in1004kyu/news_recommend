@@ -17,6 +17,7 @@ typedef struct {
 int evald_input_next(evald_input_table_t *ptable);
 void evald_input_free( evald_input_table_t *ptable);
 void evald_unlink_input_file( char *filename );
+void evald_gen_random_text( FILE *fp, int len);
 
 /* ------- D2V -----*/
 struct d2v_element {

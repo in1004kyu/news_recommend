@@ -67,3 +67,11 @@ sys	0m0.069s
 </pre>
 
 Estimated running times of evald_nve_random and evald_nve_calc will be printed using 'time' command
+
+Random Text Generator
+=====================
+
+<pre>
+$ ./genrtext 200
+wlrb mqbhcd r owkk hiddqsc xrjm wfr sjyb dbef arcbynecd ggx pklore lnmpapqfwk opkm oqhnwnkue hsqmgbbuq ljjivswmd q bx xmvtr bljptnsn wzqf mafadrrwso sbcnuv hffbsaq wp c cehch vf kmlnozjkpq xrjxki zyxa
+</pre>

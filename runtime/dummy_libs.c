@@ -18,32 +18,36 @@
 #define RANDOM_PDVL_COUNT	2
 #endif
 
-#define RANDOM_INPUT_COUNT	100000
+#define RANDOM_INPUT_COUNT	1000
 
-//#define RANDOM_INPUT_FILE_CREATE
+#define RANDOM_INPUT_FILE_CREATE
 
 static long dummy_libs_random(int min, int max);
 static void dummy_libs_random_string(char *dst, int len);
 static void dummy_libs_random_hex(char *dst, int len);
 static void dummy_libs_random_text(char *dst, int len);
 
+void evald_gen_random_text( FILE *fp, int len)
+{
+	char *data = (char *) malloc( len + 1 );
+	dummy_libs_random_text(data, len );
+	data[len] = 0;
+
+	fwrite( data, len, 1, fp );
+        free(data);
+}
+
 void evald_write_random_text( char *filename )
 {
     int len_text;
-    char *data;
     char path[LEN_FILENAME + 4 + 1];
 
     sprintf( path, "inQ/%s", filename );
     FILE *fp = fopen( path, "w" );
     if ( fp ) {
         len_text = dummy_libs_random( 1000, 5000 );
-        data = (char *) malloc( len_text + 1 );
-        dummy_libs_random_text(data, len_text );
-        data[len_text] = 0;
-
-        fwrite( data, len_text, 1, fp );
+	evald_gen_random_text( fp, len_text );
         fclose(fp);
-        free(data);
     }
 }
 
