@@ -48,7 +48,7 @@ int main( int argc, char *argv[] )
 
                         // vector and pdvl ar ready
                         // Measure the score: 'score'
-                        //score = nve( &vector, &pdvl, result );
+                        score = nve( &vector, &pdvl, result );
 
                         d2v_vector_free( &vector );
                         d2v_vector_free( &pdvl );
