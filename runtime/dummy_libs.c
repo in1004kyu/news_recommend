@@ -238,9 +238,9 @@ void dummy_libs_random_text( char *dst, int len )
     char *p = dst;
 
 
-    while( len_left > 0 ) {
+    while( len_left > 1 ) {
         len_word_max = ( len_left > 10 ? 10 : len_left );
-        len_word = dummy_libs_random( 1, len_word_max );
+        len_word = dummy_libs_random( 2, len_word_max );
         dummy_libs_random_string( p, len_word );
         p[len_word] = ' ';
         p += len_word + 1;
