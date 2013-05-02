@@ -19,7 +19,7 @@ int main( int argc, char *argv[] )
     float score;
     d2v_vector_t vector;
     d2v_vector_t pdvl;
-    //FILE *fpout;
+    FILE *fpout;
     long total_len_vector = 0;
 
 
@@ -30,13 +30,16 @@ int main( int argc, char *argv[] )
     num_input = evald_input_next(&table);
 
     fprintf(stderr, "evald: Input Data Ready\n" );
+#ifdef NVE_DO_CALC
+    fprintf(stderr, "nve: Calculation Enabled\n" );
+#endif
 
     // Prepare for output
-    //fpout = fopen( "outQ/dummy.sct", "w" );
-    //fprintf( fpout, "USERID, HASH, SCORE\n");
+    fpout = fopen( "outQ/dummy.sct", "w" );
+    fprintf( fpout, "USERID, HASH, SCORE\n");
     for( i = 0; i < num_input; i++ ) {
             // PRINT: USERID, HASH
-            //fprintf( fpout, "%s, %s", table.entries[i].userid, table.entries[i].hash );
+            fprintf( fpout, "%s, %s", table.entries[i].userid, table.entries[i].hash );
 
             // D2V:  file content: filename_text -> vector
             result = d2v_get_document_vector( 0, table.entries[i].filename_text, 0, &vector );
@@ -53,8 +56,8 @@ int main( int argc, char *argv[] )
                 d2v_vector_free( &vector );
                 d2v_vector_free( &pdvl );
 
-                // Output to SCT
-                //fprintf( fpout, ", %f\n",  score );
+                // Output to SCT: Score Table
+                fprintf( fpout, ", %f\n",  score );
             }
             evald_unlink_input_file( table.entries[i].filename_text );
 
@@ -64,7 +67,7 @@ int main( int argc, char *argv[] )
                             
     }
 
-    //fclose(fpout);
+    fclose(fpout);
 #ifdef NVE_DO_CALC
     fprintf( stderr, "evald: multiplies:%ld divisions:%ld\n", total_len_vector, total_len_vector);
 #endif

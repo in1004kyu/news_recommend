@@ -20,6 +20,8 @@
 
 #define RANDOM_INPUT_COUNT	100000
 
+//#define RANDOM_INPUT_FILE_CREATE
+
 static long dummy_libs_random(int min, int max);
 static void dummy_libs_random_string(char *dst, int len);
 static void dummy_libs_random_hex(char *dst, int len);
@@ -63,7 +65,6 @@ int evald_input_next(evald_input_table_t *ptable)
     if ( heap == NULL ) {
         ret = -1;    // memory
     }
-    fprintf(stderr, "evald: ALLOC entries:%p, heap:%p\n", entries, heap );
     
     if ( entries ) {
         int i;
@@ -87,7 +88,9 @@ int evald_input_next(evald_input_table_t *ptable)
             sprintf( pentry->filename_text, "%s-%s.inproc", pentry->userid, pentry->hash );
             pentry->filename_text[LEN_FILENAME] = 0;
             // fprintf(stderr, "evald: %s, %s, %s\n", pentry->userid, pentry->hash, pentry->filename_text );
-            //evald_write_random_text( pentry->filename_text );
+#ifdef RANDOM_INPUT_FILE_CREATE
+            evald_write_random_text( pentry->filename_text );
+#endif
         }
         ret = num_input;
         ptable->entries = entries;
@@ -98,8 +101,6 @@ int evald_input_next(evald_input_table_t *ptable)
 
 void evald_input_free( evald_input_table_t *ptable)
 {
-
-    fprintf(stderr, "evald: FREE entries:%p, heap:%p\n", ptable->entries, ptable->entries[0].priv );
     free( ptable->entries[0].priv );
     free( ptable->entries );
     ptable->entries = 0;
@@ -107,9 +108,11 @@ void evald_input_free( evald_input_table_t *ptable)
 
 void evald_unlink_input_file( char *filename )
 {
+#ifdef RANDOM_INPUT_FILE_CREATE
     char path[LEN_FILENAME + 4 + 1];
     sprintf( path, "inQ/%s", filename );
-    //unlink(path);
+    unlink(path);
+#endif
 }
 
 struct d2v_element *d2v_element_alloc( int num )
