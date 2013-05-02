@@ -41,22 +41,20 @@ int main( int argc, char *argv[] )
             // D2V:  file content: filename_text -> vector
             result = d2v_get_document_vector( 0, table.entries[i].filename_text, 0, &vector );
             if ( result == 0 ) {
-                // PDVL: userid -> pdvl, result: number of total terms in PDVL for the user
+            // PDVL: userid -> pdvl, result: number of total terms in PDVL for the user
                 result = pdvl_get( table.entries[i].userid, &pdvl, &vector );
-                if ( result > 0 ) {
-			total_len_vector += vector.length;
+            }
 
-                        // vector and pdvl ar ready
-                        // Measure the score: 'score'
-                        score = nve( &vector, &pdvl, result );
+            if ( result > 0 ) {
+            // NVE: <vector, pdvl> -> score
+                score = nve( &vector, &pdvl, result );
 
-                        d2v_vector_free( &vector );
-                        d2v_vector_free( &pdvl );
+                total_len_vector += vector.length;
+                d2v_vector_free( &vector );
+                d2v_vector_free( &pdvl );
 
-                        // Output to SCT
-                        //fprintf( fpout, ", %f\n",  score );
-
-                }
+                // Output to SCT
+                //fprintf( fpout, ", %f\n",  score );
             }
             evald_unlink_input_file( table.entries[i].filename_text );
 
