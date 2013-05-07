@@ -70,7 +70,7 @@ typedef struct{
 Functions
 ---------
 
-1. open : D2V library 를사용 할유져정보 를 저장,  각필요라이브러 리 사용준비
+1. open : D2V library에서 사용할 GTT 라이브러리 사용 준비
 2. get_document_vector : 입력 문서를 넣었을 때, < TID, count > 형태의 벡터값을 생성
 3. close : D2V library를 사용 종료를 위해 close
 
