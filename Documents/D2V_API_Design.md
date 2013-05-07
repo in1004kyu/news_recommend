@@ -23,7 +23,7 @@ Data Types
 	- D2V API를 사용 시 필요한 데이터 집합
 	- Input 파일 포인터
 	- Document Vector 저장소
-	- D2V 에서 사용 gtt library 를 위한 gtt_ctx 데이터
+	- D2V 에서 사용할 gtt library 를 위한 gtt_ctx_t 변수
 
 <pre>
 typedef struct{
