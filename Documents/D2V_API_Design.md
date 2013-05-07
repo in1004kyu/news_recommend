@@ -53,7 +53,7 @@ typedef enum {
 	- d2v_element_t 은 TID 와 COUNT를 저장
 	- MAX_ELEMENT_SIZE 는 저장가능한 총 element 수를 정의
 
-#define MAX_ELEMENT_SIZE 512
+<code>#define MAX_ELEMENT_SIZE 512</code>
 
 <pre>
 typedef struct{
