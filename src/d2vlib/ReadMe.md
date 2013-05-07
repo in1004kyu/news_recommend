@@ -8,13 +8,15 @@ $./build.sh
 실행
 $./test
 
-결과 파일
+결과 출력
+<pre>
 (TID), 10
 (TID), 20
 (TID), 30
 (TID), 40
 (TID), 50
 (TID), 60
+</pre>
 
 
 
