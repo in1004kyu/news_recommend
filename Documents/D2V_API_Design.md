@@ -15,7 +15,7 @@ Module Repository Information
 
 Module Description
 ------------------
-<i>Plane text를 입력값으로 넣는다. 해당 문서에 대해 형태소 분석기를 통해 단어와 카운터 값을 추출하고 단어에 대해서는 Term ID를 생성하여 표현하여, TID와 카운터의 벡터값을 돌려준다. PDVL을 업데이트하면서 벡터값을 추출하거나, 업데이트 없이 벡터값을 추출한다.</i>
+<i>Plane text를 입력값으로 넣는다. 해당 문서에 대해 형태소 분석기를 통해 단어와 카운터 값을 추출하고 단어에 대해서는 Term ID를 생성하여, <TID,Count> 의 벡터값을 돌려준다.</i>
 
 Data Types
 ----------
