@@ -40,7 +40,6 @@ typedef struct{
  */
 typedef struct {
 	FILE *input_fp;
-	char *username;
 	gtt_ctx_t gtt_ctx;
 	d2v_vector_t document_vector;
 } d2v_ctx_t;	
