@@ -77,13 +77,14 @@ Functions
 - <code>d2v_status_t d2v_open(d2v_ctx_t *pctx)</code>
     - <i>API 사용을 위한 GTT 라이브러리 사용 준비</i>
     - Input
-	- d2v_ctx_t *pctx : 라이브러리에서 공유 할 데이터 저장한 d2v 데이터 타입에 대한 포인터
+    	- d2v_ctx_t *pctx : 라이브러리에서 공유 할 데이터 저장한 d2v 데이터 타입에 대한 포인터
     - Return
     	- d2v status 타입에 정의 된 내용 반환
     - Discussion
-    	-  예:
-	- d2v_ctx_t d2v_ctx;
-	- d2v_open(&d2v_ctx)
+    	- 예:
+    	- d2v_ctx_t d2v_ctx;
+    	- d2v_open(&d2v_ctx)
+
 
 - <code>d2v_status_t d2v_get_document_vector(d2v_ctx_t *pctx, char *filename)
 	- <i>filename에 저장된 단어와 COUNT 정보를 통해 단어에 TID를 부여하여, TID, COUNT 형태의 벡터값을 만들어 준다. 벡터값은 d2v_ctx_t 내부에 저장된다 </i>
@@ -99,6 +100,7 @@ Functions
 		- printf("TID : %d, COUNT : %d\n",
 				d2v_ctx.document_vector.element[i].id,
 				d2v_ctx.document_vector.element[i].count);
+
 
 - <code>d2v_status_t d2v_close(d2v_ctx_t *pctx)
 	- <i> D2V 오버레이션 사용에 필요했던 GTT 라이브러리를 close 한다. </i>
