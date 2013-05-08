@@ -20,11 +20,22 @@ __global__ void kern_reduce_mul(float *g_idata, float *g_odata) {
 	__syncthreads();
 
 	// do reduction in shared mem: 64 > 32 > 16 > 8 > 4> 2
-	for(unsigned int s=blockDim.x/2; s > 0; s >>= 1) { 
+	for(unsigned int s=blockDim.x/2; s > 32; s >>= 1) { 
 		if (tid < s) {
 			sdata[tid] *= sdata[tid + s]; 			// 0..63, 64...127
 		}
 		__syncthreads(); 
+	}
+	if ( tid < 32 ) {
+		// unroll the loop at the last warp
+		// within a warp where instructions are SIMD synchronous
+		// no need __syncthreads
+		sdata[tid] *= sdata[tid + 32];
+		sdata[tid] *= sdata[tid + 16];
+		sdata[tid] *= sdata[tid + 8];
+		sdata[tid] *= sdata[tid + 4];
+		sdata[tid] *= sdata[tid + 2];
+		sdata[tid] *= sdata[tid + 1];
 	}
 	if ( tid == 0 ) {
 		g_odata[blockIdx.x] = sdata[0];
