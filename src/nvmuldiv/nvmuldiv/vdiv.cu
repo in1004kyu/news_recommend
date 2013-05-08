@@ -74,15 +74,15 @@ int vdiv_cuda( float v1[], float v2[], float vr[], int len )
     }
 
     // Launch the Vector Add CUDA Kernel
-    int threadsPerBlock = 256;
+    int threadsPerBlock = 1024;
     int blocksPerGrid =(numElements + threadsPerBlock - 1) / threadsPerBlock;
-//    printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
+    printf("vdiv:CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
     vectorDiv<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, numElements);
     err = cudaGetLastError();
 
     if (err != cudaSuccess)
     {
-        fprintf(stderr, "Failed to launch vectorAdd kernel (error code %s)!\n", cudaGetErrorString(err));
+        fprintf(stderr, "Failed to launch vectorDiv kernel (error code %s)!\n", cudaGetErrorString(err));
         exit(EXIT_FAILURE);
     }
 
@@ -105,7 +105,6 @@ int vdiv_cuda( float v1[], float v2[], float vr[], int len )
         {
             fprintf(stderr, "Result verification failed at element %d!\n", i);
 	    fprintf(stderr, "v1[i]: %f v2[i]: %f vr[i]:%f, expected:%f\n", v1[i], v2[i], vr[i], v1[i]/v2[i]);
-            exit(EXIT_FAILURE);
         }
     }
 #endif

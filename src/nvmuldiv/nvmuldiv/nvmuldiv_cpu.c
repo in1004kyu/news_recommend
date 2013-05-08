@@ -13,3 +13,20 @@ float nvmuldiv( float numerators[], float denominators[], int len)
 	}
 	return result;
 }
+
+int nvmuldiv_seg( float n[], float d[], int len, float r[], int len_r )
+{
+	float *pn = &n[0];
+	float *pd = &d[0];
+	int i = 0;
+
+	while( len > 0 ) {
+
+		r[i] = nvmuldiv(pn, pd, len_r );
+		len -= len_r;
+		i++;
+		pn += len_r;
+		pd += len_r;
+	}
+	return 0;
+}
