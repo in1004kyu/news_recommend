@@ -73,34 +73,36 @@ Functions
 1. open : D2V library에서 사용할 GTT 라이브러리 사용 준비
 2. get_document_vector : 입력 문서를 넣었을 때, < TID, count > 형태의 벡터값을 생성
 3. close : D2V library를 사용 종료를 위해 close
+4. free_vector : 생성 된 Document Vector를 해제
 
-- <code>d2v_status_t d2v_open(d2v_ctx_t *pctx)</code>
+- <code>d2v_status_t d2v_open(d2v_ctx_t *pctx, char *filename)</code>
     - <i>API 사용을 위한 GTT 라이브러리 사용 준비</i>
     - Input
     	- d2v_ctx_t *pctx : 라이브러리에서 공유 할 데이터 저장한 d2v 데이터 타입에 대한 포인터
+	- char *filename : 입력 문서 이름
     - Return
     	- d2v status 타입에 정의 된 내용 반환
     - Discussion
     	- 예:
     	- d2v_ctx_t d2v_ctx;
-    	- d2v_open(&d2v_ctx)
+    	- d2v_open(&d2v_ctx,"input.txt")
 
 
-- <code>d2v_status_t d2v_get_document_vector(d2v_ctx_t *pctx, char *filename)
-	- <i>filename에 저장된 단어와 COUNT 정보를 통해 단어에 TID를 부여하여, TID, COUNT 형태의 벡터값을 만들어 준다. 벡터값은 d2v_ctx_t 내부에 저장된다 </i>
+- <code>d2v_status_t d2v_get_document_vector(d2v_ctx_t *pctx, d2v_vector_t *doc_vec)
+	- <i>filename에 저장된 단어와 COUNT 정보를 통해 단어에 TID를 부여하여, TID, COUNT 형태의 벡터값을 만들어 준다. </i>
 	- Input
 		- d2v_ctx_t *pctx : 라이브러리에서 공유 할 데이터를 저장한 d2v 데이터에 대한 포인터
-		- char *filename : Document Vector를 만들기 원하는 단어,COUNT 데이터 파일이름
+		- d2v_vector_t *doc_vec : 생성 된 Document Vector를 저장하는 백터 데이터값에 대한 포인터
 	- Return
-		- d2v status 타입에 정의 된 내용값 반환 (벡터값은 d2v_dtx_t *pctx에 저장된다)
+		- d2v status 타입에 정의 된 내용값 반환
 	- Descussion
 		- 예
 		- d2v_ctx_t d2v_ctx
-		- d2v_get_document_vector(&d2v_ctx,"test.txt")
+		- d2v_vector_t doc_vec
+		- d2v_get_document_vector(&d2v_ctx,&doc_vec)
 		- printf("TID : %d, COUNT : %d\n",
-				d2v_ctx.document_vector.element[i].id,
-				d2v_ctx.document_vector.element[i].count);
-
+				doc_vec.element[i].id,
+				doc_vec.element[i].count);
 
 - <code>d2v_status_t d2v_close(d2v_ctx_t *pctx)
 	- <i> D2V 오버레이션 사용에 필요했던 GTT 라이브러리를 close 한다. </i>
@@ -112,3 +114,14 @@ Functions
 		- 예 :
 		- d2v_ctx_t d2v_ctx
 		- d2v_close(&d2v_ctx)
+
+- <code>d2v_status_t d2v_free_vector(d2v_vector_t *doc_vec)
+	- <i> D2V에서 Document Vector를 생성해줄 때 할당했던 메모리를 해제한다. </i> 
+	- Input
+		- d2v_vector_t *doc_vec : 해제 할Document Vector 에대 한포인터
+	- Return
+		- d2v status 타입 에정 의 된내 용 값반 환
+	- Discussion
+		-  예 :
+		- d2v_vector_t doc_vec
+		- d2v_free_vector( &doc_vec )
