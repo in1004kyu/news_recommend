@@ -1,13 +1,10 @@
-all : nve
+all : libnve.so.1
+	
+libnve.so.1 : nve.o
+	gcc -shared -Wl -o libnve.so.1 nve.o
 
-nve: nve.o nveTest.o
-	gcc -o nve nve.o nveTest.o
-
-nve.o: nve.c
-	gcc -c -o nve.o nve.c
-
-nveTest.o: nveTest.c
-	gcc -c -o nveTest.o nveTest.c
+nve.o : nve.c
+	gcc -Wall -c -o nve.o nve.c -fPIC
 
 clean :
-	@rm -rf *.o
+	rm -rf *.o libnve
