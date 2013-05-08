@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct d2v_element {
+typedef struct {
 	int id;
 	int count;
-};
+}d2v_element_t;
 
-struct d2v_vector{
+typedef struct{
 	int length;
-	struct d2v_element* elements;
-};
+	d2v_element_t* elements;
+}d2v_vector_t;
 
-float nve(struct d2v_vector dv, struct d2v_vector pdvl_subset,int pdvl_full_length);
+float nve(d2v_vector_t dv, d2v_vector_t pdvl_subset,int pdvl_full_length);

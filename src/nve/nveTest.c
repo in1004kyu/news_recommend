@@ -2,10 +2,10 @@
 #define PDVL_COUNT	4
 #define DVL_COUNT	3
 #define PDVLSUB_COUNT 3
-void init(struct d2v_vector* vector_list, int len){
+void init(d2v_vector_t* vector_list, int len){
 	int i;
 	vector_list->length = len;
-	vector_list->elements = (struct d2v_element*)malloc(sizeof(struct d2v_element) * len);
+	vector_list->elements = (d2v_element_t*)malloc(sizeof(d2v_element_t) * len);
 
 	for(i = 0; i < len; i++){		
 		vector_list->elements[i].id = i;
@@ -13,10 +13,10 @@ void init(struct d2v_vector* vector_list, int len){
 	}
 }
 
-void vector_free(struct d2v_vector* vector_list){
+void vector_free(d2v_vector_t* vector_list){
 	free(vector_list->elements);
 }
-void vector_print(struct d2v_vector vector_list){
+void vector_print(d2v_vector_t vector_list){
 	int i;
 	printf("id / count\n");
 	for(i = 0; i<vector_list.length; i++){
@@ -25,9 +25,9 @@ void vector_print(struct d2v_vector vector_list){
 }
 
 int main(){
-	struct d2v_vector pdvl;
-	struct d2v_vector dvl;
-	struct d2v_vector pdvl_subset;
+	d2v_vector_t pdvl;
+	d2v_vector_t dvl;
+	d2v_vector_t pdvl_subset;
 	init(&pdvl, PDVL_COUNT);
 	init(&dvl, DVL_COUNT);
 

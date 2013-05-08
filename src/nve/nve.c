@@ -22,7 +22,7 @@ before subset extraction. Used as input parameter to Naive Bayesian Calculation 
 #define NOTAVAILABLE 0
 #define AVAILABLE 1
 
-float nve(struct d2v_vector dv, struct d2v_vector pdvl_subset, int pdvl_full_length){
+float nve(d2v_vector_t dv, d2v_vector_t pdvl_subset, int pdvl_full_length){
 	float** frequencies;
 	int pdvl_cnt_sum = 0;
 	int frequency_index = 0;
