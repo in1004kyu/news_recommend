@@ -18,7 +18,7 @@ pdvl_status_t pdvl_open( pdvl_ctx_t *pctx,char *filename)
 	pctx->temp_fp	= fopen( TEMPFILENAME, "w+");
 	pctx->swap_flag = 0;
 	if( pctx->pdvl_fp == NULL || pctx->temp_fp == NULL )
-		return PDVL_STATUS_FIAL;
+		return PDVL_STATUS_FAIL;
 	return PDVL_STATUS_SUCCESS;
 }
  
