@@ -7,6 +7,7 @@ extern "C" {
 
 float nvmuldiv( float numerators[], float denominators[], int len);
 float nvmuldiv_cuda_thrust( float numerators[], float denominators[], int len);
+float nvmuldiv_cuda( float numerators[], float denominators[], int len);
 #ifdef __cplusplus 
 }
 #endif
