@@ -28,3 +28,23 @@ Directory Descriptions
     - D2V를 통해서 변환된 Document Vector와 PDVL간의 유사도를 평가하는 기능을 수행한다
 - nvmuldiv/
     - NVE 내부에서 Naive Bayesian Algorithm을 수행하는데 필요한 산술적인 연산을 CUDA 기반으로 구현
+
+Schedule
+--------
+- 형준
+    - D2V API Design, Implemetation - 9일
+    - Cuda Algorithm [나누기] - 13일
+    - [책임] Poster & Presentation 20일 시작 21일까지
+
+- 인규
+    - Makefile Tree - 10일
+    - Cuda Algorithm [곱하기] - 11일
+    - NVE + NVEMULDIV - 12일
+    - Cuda add 연산 optimize - 13일
+    - NVE parallelization API - 16일
+    - NVE parallelization Implementation - 18일 
+    - [책임] Poster 1차 13일에 시작 14일까지
+
+- 상모
+    - Trainer Daemon 20일
+    - EvaluD 26일
