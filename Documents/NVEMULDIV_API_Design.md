@@ -9,7 +9,7 @@ Revision History
 Module Repository Information
 -----------------------------
 - Directory: &lt;src&gt;/nvemuldiv/nvemuldiv
-- Headers: nvemuldiv.h
+- Headers: include/nvmuldiv/nvmuldiv.h
 
 
 Module Description
@@ -43,6 +43,19 @@ Functions
         - len number of elements in numerators[] and denominators[]
     - Return
         - <code>(d1[0] / d2[0]) x (d1[1] / d2[1]) x ... x (d1[len-1] x d2[len-2] )</code>
+- <code>int nvmuldiv_seg( float n[], float d[], int len, float r[], int len_r )</code>
+    - Multi-segment bulk processing of <code>nvmuldiv()</code>
+    - n: combined vector of numerators. 'len' elements
+    - d: combined vector of denominators. 'len' elements
+    - len: length of 'n' and'd'
+    - r: output result vector where score of each segment. 'len_r' elements
+    - len_r: length of each segment. number of segment = len / len_r. 
+    - example: 
+<pre>
+nvmuldiv_seg( { 1, 2, 3, ... 256}, { 1, 2, 3, ... 256 }, 256, &r, 64 );
+    - 4 segments ( = 256 / 64 )
+    - numerators at segment 0 : n[0] ~ n[63]
+</pre>
 
 <pre>
 float nvmuldiv( float numerators[], float denominators[], int len);
