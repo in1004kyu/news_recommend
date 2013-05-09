@@ -8,8 +8,9 @@ Revision History
 
 Module Repository Information
 -----------------------------
-- Directory: &lt;src&gt;/nvemuldiv/nvemuldiv
+- Directory: &lt;src&gt;/nvmuldiv/nvmuldiv
 - Headers: include/nvmuldiv/nvmuldiv.h
+- Library: lib/libnvmuldiv.so
 
 
 Module Description
