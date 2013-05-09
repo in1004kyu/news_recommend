@@ -1,16 +1,33 @@
 CC = gcc
 CFLAGS = -Wall
 
-test : test.c d2v_naive.o gtt_naive.o
-	$(CC) $(CLAGS) -o test test.c d2v_naive.o gtt_naive.o
+PATH_DEST_BIN=../../bin
+PATH_DEST_LIB=../../lib
 
+D2VTEST=d2vtest
+TARGET_LIB=libd2v.so
+
+LIB_OBJS=d2v_naive.o gtt_naive.o
+
+all:$(D2VTEST) $(TARGET_LIB)
+	cp $(D2VTEST) $(PATH_DEST_BIN)
+	cp $(TARGET_LIB) $(PATH_DEST_LIB)
+
+$(D2VTEST): test.c d2v_naive.o gtt_naive.o $(TARGET_LIB)
+	$(CC) $(CFLAGS) -o $@ test.c d2v_naive.o gtt_naive.o -ld2v -L.
+
+$(TARGET_LIB): $(LIB_OBJS)
+	$(CC) -shared -Wl -o $@ $(LIB_OBJS)
 
 d2v_naive.o : d2v_naive.c
-	$(CC) $(CLAGS) -c d2v_naive.c
+	$(CC) $(CFLAGS) -c d2v_naive.c -fPIC -o $@
 
 gtt_naive.o : ../gttlib/gtt_naive.c
-	$(CC) $(CLAGS) -c ../gttlib/gtt_naive.c 
+	$(CC) $(CFLAGS) -c ../gttlib/gtt_naive.c 
 
 clean :
-	rm *.o
-	rm test
+	rm -f *.o
+	rm -f $(D2VTEST)
+	rm -f $(TARGET_LIB)
+	rm -f $(PATH_DEST_BIN)/$(D2VTEST)
+	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
