@@ -14,11 +14,11 @@ all : $(TARGET_LIB) $(NVETEST)
 	cp $(NVETEST) $(PATH_DEST_BIN)
 	@echo "================ DONE ==============="
 
-$(PATH_DEST_LIB):
-	make -p $(PATH_DEST_LIB)
+#$(PATH_DEST_LIB):
+#	make -p $(PATH_DEST_LIB)
 
-$(PATH_DEST_BIN):
-	make -p $(PATH_DEST_BIN)
+#$(PATH_DEST_BIN):
+#	make -p $(PATH_DEST_BIN)
 
 $(TARGET_LIB): nve.o $(PATH_DEST_LIB)
 	$(CC) -shared -Wl -o $@  nve.o
