@@ -7,7 +7,7 @@ TEST = gttTest
 TEST2 = gttTest2
 
 all : $(TARGET_LIB) $(TEST) $(TEST2)
-	@echo "================ NVE ================"
+	@echo "================ GTT ================"
 	@echo "Copying library $(TARGET_LIB) to $(PATH_DEST_LIB)"
 	cp $(TARGET_LIB) $(PATH_DEST_LIB)
 	@echo "Copying binary $(TEST) to $(PATH_DEST_BIN)"

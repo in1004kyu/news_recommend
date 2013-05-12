@@ -13,7 +13,6 @@ all:$(D2VTEST) $(TARGET_LIB)
 	cp $(D2VTEST) $(PATH_DEST_BIN)
 	cp $(TARGET_LIB) $(PATH_DEST_LIB)
 	cp test.txt $(PATH_DEST_BIN)
-	cp default.gtt $(PATH_DEST_BIN)
 
 $(D2VTEST): test.o d2v_naive.o gtt_naive.o $(TARGET_LIB)
 	$(CC) $(CFLAGS) -o $@ test.o d2v_naive.o gtt_naive.o -ld2v -L.
@@ -36,7 +35,6 @@ clean :
 	rm -f $(PATH_DEST_BIN)/$(D2VTEST)
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/test.txt
-	rm -f $(PATH_DEST_BIN)/default.gtt
 
 
 #gcc -Wall -c d2v_naive.c

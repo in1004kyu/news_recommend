@@ -6,7 +6,7 @@ TARGET_LIB=libpdvl.so
 TEST = pdvlTest
 
 all : $(TARGET_LIB) $(TEST)
-	@echo "================ NVE ================"
+	@echo "================ PDVL ================"
 	@echo "Copying library $(TARGET_LIB) to $(PATH_DEST_LIB)"
 	cp $(TARGET_LIB) $(PATH_DEST_LIB)
 	@echo "Copying binary $(TEST) to $(PATH_DEST_BIN)"

@@ -1,4 +1,3 @@
-
 PATH_DEST_LIB=../../lib
 PATH_DEST_BIN=../../bin
 TARGET_LIB=libnve.so
