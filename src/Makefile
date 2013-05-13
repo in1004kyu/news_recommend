@@ -1,6 +1,6 @@
 MAEK = make
 
-SUB_DIRS = src
+SUB_DIRS = nve d2vlib gttlib pdvllib nvmuldiv
 CLEANDIRS = $(SUB_DIRS:%=clean-%)
 
 subdirs: $(SUB_DIRS)
