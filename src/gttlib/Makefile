@@ -40,5 +40,5 @@ clean :
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/$(TEST)
 	rm -f $(PATH_DEST_BIN)/$(TEST2)
-	rm $(PATH_DEST_BIN)/default.gtt
+	rm -f $(PATH_DEST_BIN)/default.gtt
 

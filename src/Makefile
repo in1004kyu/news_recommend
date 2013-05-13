@@ -3,6 +3,8 @@ MAEK = make
 SUB_DIRS = nve d2vlib gttlib pdvllib nvmuldiv
 CLEANDIRS = $(SUB_DIRS:%=clean-%)
 
+all:subdirs
+
 subdirs: $(SUB_DIRS)
 
 $(SUB_DIRS):

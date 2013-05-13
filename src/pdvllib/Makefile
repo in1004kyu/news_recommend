@@ -39,6 +39,6 @@ clean :
 	rm -rf *.o $(TARGET_LIB) $(TEST)
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/$(TEST)
-	rm $(PATH_DEST_BIN)/default.pdvl
+	rm -f $(PATH_DEST_BIN)/default.pdvl
 #	rm *.o
 #	rm test
