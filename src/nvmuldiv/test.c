@@ -49,7 +49,7 @@ int main(void)
 // Generate random data for test
 	srandom( time(0) );
 	int num_data = NUM_DEFAULT_DATA;
-	int len_dataset = 128;
+	int len_dataset = 512;
 
 	test_reduce_mul();
 

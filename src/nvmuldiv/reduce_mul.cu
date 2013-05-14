@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "nvmuldiv.h"
 #define MAX_BLOCKS		65535

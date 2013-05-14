@@ -5,11 +5,14 @@ LINKER = gcc
 #
 #CFLAGS= -g -D__NVMULDIV_ENABLE_VERIFY__
 CFLAGS= -g
-NVCCFLAGS=-m64
-NVCC=nvcc -g
+NVCCFLAGS=-m64 --shared --compiler-options '-fPIC' -g
+NVCC=nvcc
 
 # Try MAC OS X
+CUDA_LIB_PATH= $(wildcard /usr/local/cuda/lib64)
+ifeq ($(CUDA_LIB_PATH), )
 CUDA_LIB_PATH= $(wildcard /usr/local/cuda/lib)
+endif
 ifeq ($(CUDA_LIB_PATH), )
 CUDA_LIB_PATH= $(wildcard /usr/local/cuda-5.0/lib)
 endif
@@ -37,10 +40,12 @@ $(PATH_DEST_INC):
 	mkdir -p $(PATH_DEST_INC)
 
 $(TARGET_BIN): $(OBJS)
-	$(NVCC) $(NVCCFLAGS) -o $@ $(OBJS) -lnvmuldiv -L.
+	$(LINKER) -o $@ $(OBJS) -lnvmuldiv -L. -lstdc++ -lcudart -L$(CUDA_LIB_PATH)
+
 
 $(TARGET_LIB): $(LIB_OBJS)
-	$(LINKER) -shared -fPIC -o $@ $(LIB_OBJS) -lstdc++ -lcuda -lcudart -L$(CUDA_LIB_PATH)
+	#$(LINKER) -m64 -shared -fPIC -o $@ $(LIB_OBJS) -lstdc++ -lcuda -lcudart -L$(CUDA_LIB_PATH)
+	$(LINKER) -m64 -shared -fPIC -o $@ $(LIB_OBJS) 
 
 test.o: test.c
 	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
