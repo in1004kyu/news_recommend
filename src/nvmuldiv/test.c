@@ -1,10 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 #include <math.h>
 #include "nvmuldiv.h"
 
 #define NUM_DEFAULT_DATA	60000
+
+long timestamp(void)
+{
+	long result;
+	struct timeval tv;
+	gettimeofday( &tv, NULL );
+
+	result = tv.tv_sec;
+	result *= 1000000;
+	result += tv.tv_usec;
+	return result;
+}
+
 
 void nvmuldiv_data_fill_random( int len, float *d1, float*d2 )
 {
@@ -46,6 +60,8 @@ int main(void)
 	float *datasets2[NUM_DEFAULT_DATA];
 	float *bd1;	// bulk dataset 1
 	float *bd2;	// bulk dataset 2
+	long ts1;
+	long ts2;
 // Generate random data for test
 	srandom( time(0) );
 	int num_data = NUM_DEFAULT_DATA;
@@ -76,15 +92,25 @@ int main(void)
 
 // Multiply
 	printf( "CPU...\n" );
-	nvmuldiv_seg( bd1, bd2, num_data * len_dataset, br, len_dataset );
+	ts1 = timestamp();
+	for( i = 0; i < 100; i++ ) {
+		nvmuldiv_seg( bd1, bd2, num_data * len_dataset, br, len_dataset );
+	}
+	ts2 = timestamp();
 	/*
 	for ( i = 0; i < num_data; i++ ) {
 		printf( "br[%d]:%f\n", i, br[i]);
 	}
 	*/
+	fprintf( stderr, "Elapsed time:%ld\n", ts2-ts1 );
 
 	printf( "GPU-CUDA\n" );
-	nvmuldiv_seg_cuda( bd1, bd2, num_data * len_dataset, br2, len_dataset );
+	ts1 = timestamp();
+	for( i = 0; i < 100; i++ ) {
+		nvmuldiv_seg_cuda( bd1, bd2, num_data * len_dataset, br2, len_dataset );
+	}
+	ts2 = timestamp();
+	fprintf( stderr, "Elapsed time:%ld\n", ts2-ts1 );
 #ifdef __NVMULDIV_ENABLE_VERIFY__
 	for ( i = 0; i < num_data; i++ ) {
 		if ( fabs(br[i] - br2[i]) > 1e-5 ) {

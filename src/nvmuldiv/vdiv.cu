@@ -22,7 +22,7 @@ int vdiv_cuda( float v1[], float v2[], float vr[], int len )
     // Print the vector length to be used, and compute its size
     int numElements = len;
     size_t size = numElements * sizeof(float);
-//    printf("[Vector addition of %d elements]\n", numElements);
+    //printf("[Vector addition of %d elements]\n", numElements);
 
     // Allocate the device input vector A
     float *d_A = NULL;
@@ -76,7 +76,7 @@ int vdiv_cuda( float v1[], float v2[], float vr[], int len )
     // Launch the Vector Add CUDA Kernel
     int threadsPerBlock = 1024;
     int blocksPerGrid =(numElements + threadsPerBlock - 1) / threadsPerBlock;
-    printf("vdiv:CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
+    //printf("vdiv:CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
     vectorDiv<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, numElements);
     err = cudaGetLastError();
 

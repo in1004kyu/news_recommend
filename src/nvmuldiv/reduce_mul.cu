@@ -66,7 +66,7 @@ extern "C" int reduce_mul( float *v, int len, float *result )
 	}
 
 	// Launch Kernel: number of blocks, threads per block, shared memory size in bytes
-	printf( "reduce_mul: blocks:%d, threads per block:%d, smem size:%d\n", dimGrid, dimBlock, (int) smemSize);
+	// printf( "reduce_mul: blocks:%d, threads per block:%d, smem size:%d\n", dimGrid, dimBlock, (int) smemSize);
 	if ( err == cudaSuccess ) {
 		kern_reduce_mul<<< dimGrid, dimBlock, smemSize >>>(d_v, d_r);
 		err = cudaGetLastError();
@@ -110,7 +110,7 @@ int aligned_length( int len )
 		}
 		m <<= 1;
 	}
-	printf( "aligned_length: len:%d -> m:%d\n", len, m );
+	//printf( "aligned_length: len:%d -> m:%d\n", len, m );
 	return m;
 }
 extern "C" int reduce_mul_seg( float v[], int len, float r[], int len_r )
@@ -143,7 +143,7 @@ extern "C" int reduce_mul_seg( float v[], int len, float r[], int len_r )
 	}
 
 	// Launch Kernel: number of blocks, threads per block, shared memory size in bytes
-	printf( "reduce_mul_seg: blocks:%d, threads per block:%d, smem size:%d\n", dimGrid, dimBlock, (int) smemSize);
+	// printf( "reduce_mul_seg: blocks:%d, threads per block:%d, smem size:%d\n", dimGrid, dimBlock, (int) smemSize);
 	if ( err == cudaSuccess ) {
 		kern_reduce_mul<<< dimGrid, dimBlock, smemSize >>>(d_v, d_r);
 		err = cudaGetLastError();
