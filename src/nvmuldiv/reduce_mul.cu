@@ -21,12 +21,13 @@ __global__ void kern_reduce_mul(float *g_idata, float *g_odata) {
 	__syncthreads();
 
 	// do reduction in shared mem: 64 > 32 > 16 > 8 > 4> 2
-	for(unsigned int s=blockDim.x/2; s > 32; s >>= 1) { 
+	for(unsigned int s=blockDim.x/2; s > 0; s >>= 1) { 
 		if (tid < s) {
 			sdata[tid] *= sdata[tid + s]; 			// 0..63, 64...127
 		}
 		__syncthreads(); 
 	}
+	/*
 	if ( tid < 32 ) {
 		// unroll the loop at the last warp
 		// within a warp where instructions are SIMD synchronous
@@ -38,6 +39,8 @@ __global__ void kern_reduce_mul(float *g_idata, float *g_odata) {
 		sdata[tid] *= sdata[tid + 2];
 		sdata[tid] *= sdata[tid + 1];
 	}
+	*/
+
 	if ( tid == 0 ) {
 		g_odata[blockIdx.x] = sdata[0];
 	}
@@ -51,6 +54,8 @@ extern "C" int reduce_mul( float *v, int len, float *result )
 	int dimGrid = ((len/2) + dimBlock - 1) / dimBlock;	// number of blocks
 	int padded_len = dimGrid * (dimBlock * 2);	// threads x 2 x blocks
 	size_t smemSize = padded_len/2 * sizeof(float);
+
+	fprintf( stderr, "reduce_mul: padded_len:%d\n", padded_len );
 
 	float *d_v = NULL;
 	float *d_r = NULL;
@@ -77,12 +82,12 @@ extern "C" int reduce_mul( float *v, int len, float *result )
 		float *r = (float *) malloc( sizeof(float) * dimGrid );
 		err = cudaMemcpy( r, d_r, sizeof(float) * dimGrid, cudaMemcpyDeviceToHost);
 		if ( err == cudaSuccess ) {
-			//printf( "d_r[] = {" );
+			printf( "d_r[] = {" );
 			for ( int i = 0; i < dimGrid; i++ ) {
-			//	printf( "%f,", r[i] );
+				printf( "%.3f,", r[i] );
 				value *= r[i];
 			}
-			//printf( "}\n" );
+			printf( "}\n" );
 			*result = value;
 		}
 	}
@@ -151,15 +156,18 @@ extern "C" int reduce_mul_seg( float v[], int len, float r[], int len_r )
 
 	if ( err == cudaSuccess ) {
 		err = cudaMemcpy( r, d_r, sizeof(float) * numSegs, cudaMemcpyDeviceToHost);
+#if 0
 #ifdef __NVMULDIV_ENABLE_VERIFY__
 		if ( err == cudaSuccess ) {
-			printf( "d_r[] = {" );
+			printf("reduce_mul_seg: d_r[] = {" );
 			for ( int i = 0; i < dimGrid; i++ ) {
 				printf( "%f,", r[i] );
 			}
 			printf( "}\n" );
 		}
 #endif
+#endif
+
 	}
 
 	if ( err == cudaSuccess ) {
@@ -168,6 +176,39 @@ extern "C" int reduce_mul_seg( float v[], int len, float r[], int len_r )
 	if ( err == cudaSuccess ) {
 		cudaFree(d_r);
 	}
+	if ( err != cudaSuccess ) {
+        	fprintf(stderr, "CUDA (error code: %x: %s)\n", err, cudaGetErrorString(err));
+	}
+
+	return 0;
+}
+
+extern "C" int reduce_mul_seg_devmem( float d_v[], int len, float d_r[], int len_r )
+{
+	cudaError_t err = cudaSuccess;
+
+	int numSegs = len / len_r;
+	if ( numSegs > MAX_BLOCKS ) {
+		fprintf( stderr, "reduce_mul_seg: too many segments (%d / %d = %d > MAX_BLOCKS (%d) )\n", len, len_r, len / len_r, MAX_BLOCKS );
+		return -1;
+	}
+	int dimGrid = numSegs;	// number of blocks: number of segments
+	int aligned_len_r = aligned_length( len_r );
+	int padded_len = dimGrid * aligned_len_r;	// segment length x blocks
+	int dimBlock = aligned_len_r / 2;	// threads per block : half the length
+	size_t smemSize = aligned_len_r/2 * sizeof(float);
+
+	if ( padded_len != len ) {
+		fprintf( stderr, "len(%d)/len_r(%d) != padded_len(%d)\n", len, len_r, padded_len );
+		return -2;
+	}
+
+
+	// Launch Kernel: number of blocks, threads per block, shared memory size in bytes
+	// printf( "reduce_mul_seg: blocks:%d, threads per block:%d, smem size:%d\n", dimGrid, dimBlock, (int) smemSize);
+	kern_reduce_mul<<< dimGrid, dimBlock, smemSize >>>(d_v, d_r);
+	err = cudaGetLastError();
+
 	if ( err != cudaSuccess ) {
         	fprintf(stderr, "CUDA (error code: %x: %s)\n", err, cudaGetErrorString(err));
 	}

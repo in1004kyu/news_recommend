@@ -23,7 +23,7 @@ endif
 OBJS=test.o 
 
 TARGET_LIB=libnvmuldiv.so
-LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o
+LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o nvmuldiv.o
 TARGET_BIN=test_nvmuldiv
 PUBLIC_HEADERS=nvmuldiv.h
 
@@ -48,6 +48,9 @@ $(TARGET_LIB): $(LIB_OBJS)
 	$(LINKER) -m64 -shared -fPIC -o $@ $(LIB_OBJS) 
 
 test.o: test.c
+	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
+
+nvmuldiv.o: nvmuldiv.c
 	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
 
 nvmuldiv_cpu.o: nvmuldiv_cpu.c

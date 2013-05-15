@@ -3,9 +3,10 @@ LINKER = gcc
 #CFLAGS = -Wall
 # nvcc -o test test.c nvmuldiv_cpu.c nvmuldiv_cuda_thrust.cu
 #
-#CFLAGS= -g -D__NVMULDIV_ENABLE_VERIFY__
-CFLAGS= -g
-NVCCFLAGS=-m64 --shared --compiler-options '-fPIC' -g
+CFLAGS= -g -D__NVMULDIV_ENABLE_VERIFY__ -Wall
+#CFLAGS= -g -Wall
+NVCCFLAGS=-m64 --shared --compiler-options '-fPIC' -g -D__NVMULDIV_ENABLE_VERIFY__ 
+
 NVCC=nvcc
 
 # Try MAC OS X
@@ -23,7 +24,7 @@ endif
 OBJS=test.o 
 
 TARGET_LIB=libnvmuldiv.so
-LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o
+LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o nvmuldiv.o
 TARGET_BIN=test_nvmuldiv
 PUBLIC_HEADERS=nvmuldiv.h
 
@@ -48,6 +49,9 @@ $(TARGET_LIB): $(LIB_OBJS)
 	#$(LINKER) -m64 -shared -fPIC -o $@ $(LIB_OBJS) 
 
 test.o: test.c
+	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
+
+nvmuldiv.o: nvmuldiv.c
 	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
 
 nvmuldiv_cpu.o: nvmuldiv_cpu.c

@@ -1,6 +1,11 @@
 #include "nvmuldiv.h"
 #include <stdio.h>
 
+nvmuldiv_status_t _nvmuldiv_cpu_init(void)
+{
+	// Place holder for futer initialization
+}
+
 float nvmuldiv( float numerators[], float denominators[], int len)
 {
 	int i = 0;
