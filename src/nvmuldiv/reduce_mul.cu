@@ -10,9 +10,12 @@
 #define MAX_BLOCKS		65535
 #define MAX_THREADS_PER_BLOCK	1024
 
+#define ENABLE_WARP_SCHEDULING	// Performance improvement: 49s -> 46s with 1000 iterations of 60000 x 512 elements
+
 /* --- reduce --- */
 __global__ void kern_reduce_mul(float *g_idata, float *g_odata) { 
-	extern __shared__ float sdata[];
+	extern __shared__ float sdata[];	
+
 
 	// each thread loads one element from global to shared mem
 	unsigned int tid = threadIdx.x;					// 0..127
@@ -21,25 +24,36 @@ __global__ void kern_reduce_mul(float *g_idata, float *g_odata) {
 	__syncthreads();
 
 	// do reduction in shared mem: 64 > 32 > 16 > 8 > 4> 2
+#ifdef ENABLE_WARP_SCHEDULING
+	for(unsigned int s=blockDim.x/2; s > 32; s >>= 1) { 
+		if (tid < s) {
+			sdata[tid] *= sdata[tid + s]; 			// 0..63, 64...127
+		}
+		__syncthreads(); 
+	}
+	if ( tid < 32 ) {
+		volatile float *smem = sdata;
+		// unroll the loop at the last warp
+		// within a warp where instructions are SIMD synchronous
+		// no need __syncthreads
+		// ------------------------------------------------------
+		// AS LONG AS the shared memory is declared as "volatile"
+		// ------------------------------------------------------
+		smem[tid] *= smem[tid + 32];
+		smem[tid] *= smem[tid + 16];
+		smem[tid] *= smem[tid + 8];
+		smem[tid] *= smem[tid + 4];
+		smem[tid] *= smem[tid + 2];
+		smem[tid] *= smem[tid + 1];
+	}
+#else
 	for(unsigned int s=blockDim.x/2; s > 0; s >>= 1) { 
 		if (tid < s) {
 			sdata[tid] *= sdata[tid + s]; 			// 0..63, 64...127
 		}
 		__syncthreads(); 
 	}
-	/*
-	if ( tid < 32 ) {
-		// unroll the loop at the last warp
-		// within a warp where instructions are SIMD synchronous
-		// no need __syncthreads
-		sdata[tid] *= sdata[tid + 32];
-		sdata[tid] *= sdata[tid + 16];
-		sdata[tid] *= sdata[tid + 8];
-		sdata[tid] *= sdata[tid + 4];
-		sdata[tid] *= sdata[tid + 2];
-		sdata[tid] *= sdata[tid + 1];
-	}
-	*/
+#endif
 
 	if ( tid == 0 ) {
 		g_odata[blockIdx.x] = sdata[0];

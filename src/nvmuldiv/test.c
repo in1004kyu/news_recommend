@@ -9,7 +9,17 @@
 
 #define NUM_DEFAULT_DATA	60000
 #define NUM_LEN_DATASET		512
-#define NUM_TEST_LOOP		100
+#define NUM_TEST_LOOP		10
+
+typedef struct {
+	void *heap;
+	float *bv1;	// bulk vectors 1
+	float *bv2;	// bulk vectors 2
+	float *br1;	// num_data elements
+	float *br2;	// num_data elements
+	int num_data;
+	int len_dataset;
+} datasets_t;
 
 void test_print_duration( char *label, long t_us );
 
@@ -172,8 +182,8 @@ void test_verify_result(float *bd1, float *bd2, float *br, float *br2, int num_d
 		int i;
 		fprintf( stderr, "Verifying result...\n" );
 		for ( i = 0; i < num_data; i++ ) {
-			if ( fabs(br[i] - br2[i]) > 1e-5 ) {
-				printf( "br[%d]: CPU:%f, GPU:%f\n", i, br[i], br2[i]);
+			if ( fabs(br[i] - br2[i]) > (br[i] / 10000) ) {
+				printf( "br[%d]: CPU:%.10f, GPU:%.10f\n", i, br[i], br2[i]);
 				test_dump_dataset( &bd1[len_dataset * i], &bd2[len_dataset * i], len_dataset );
 				error_count++;
 			}
@@ -187,25 +197,74 @@ void test_verify_result(float *bd1, float *bd2, float *br, float *br2, int num_d
 	}
 #endif
 }
+
+
+int test_datasets_alloc( datasets_t *ds, int num_data, int len_dataset )
+{
+	ds->heap = malloc( sizeof(float) * num_data * len_dataset * 2);
+	ds->br1 = malloc( sizeof(float) * num_data );	// bulk result;
+	ds->br2 = malloc( sizeof(float) * num_data );	// bulk result;
+	if ( ds->heap == NULL || ds->br1 == NULL || ds->br1 == NULL ) {
+		fprintf( stderr, "memory allocation error\n" );
+		return -1;
+	}
+	printf( "p:%p, end:%p\n", ds->heap, ds->heap + (sizeof(float) * num_data * len_dataset * 2) - sizeof(float));
+
+	float *p = ds->heap;
+	ds->bv1 = p;
+	ds->bv2 = p + (num_data * len_dataset);
+	ds->num_data = num_data;
+	ds->len_dataset = len_dataset;
+	return 0;
+}
+
+void test_datasets_free( datasets_t *ds )
+{
+	free(ds->heap);
+	free(ds->br1);
+	free(ds->br2);
+	ds->heap = NULL;
+	ds->br1 = NULL;
+	ds->br2 = NULL;
+	ds->bv1 = NULL;
+	ds->bv2 = NULL;
+	ds->num_data = 0;
+	ds->len_dataset = 0;
+}
+
+void test_datasets_fill_random(datasets_t *ds)
+{
+	nvmuldiv_data_fill_random( ds->len_dataset * ds->num_data, ds->bv1, ds->bv2 );
+}
+
 int main(void)
 {
 
 	int i;
-	float *datasets1[NUM_DEFAULT_DATA];
-	float *datasets2[NUM_DEFAULT_DATA];
-	float *bd1;	// bulk dataset 1
-	float *bd2;	// bulk dataset 2
+	//float *datasets1[NUM_DEFAULT_DATA];
+	//float *datasets2[NUM_DEFAULT_DATA];
 	long ts1;
 	long ts2;
 // Generate random data for test
-	srandom( time(0) );
 	int num_data = NUM_DEFAULT_DATA;
 	int len_dataset = NUM_LEN_DATASET;
 	int result;
 
+#if 0
+	float *bd1;	// bulk dataset 1
+	float *bd2;	// bulk dataset 2
+#endif
+#if 1
+	datasets_t ds1;
+	datasets_t ds2;
+#endif
+
+	srandom( time(0) );
+
 	nvmuldiv_init();
 	test_reduce_mul();
 
+#if 0
 	printf( "Number of input data:%d of %d datasets\n", num_data, len_dataset );
 	float *bds = malloc( sizeof(float) * num_data * len_dataset * 2);
 	float *br = malloc( sizeof(float) * num_data );	// bulk result;
@@ -219,32 +278,48 @@ int main(void)
 	float *p = bds;
 	bd1 = p;
 	bd2 = p + (num_data * len_dataset);
+	/*
 	for (i = 0; i < num_data; i++ ) {
 		datasets1[i] = p; 
 		datasets2[i] = p + (num_data * len_dataset);
 
 		p += len_dataset;
 	}
+	*/
 	nvmuldiv_data_fill_random( len_dataset * num_data, bd1, bd2 );
+#endif
+
+#if 1
+	test_datasets_alloc( &ds1, num_data, len_dataset );
+	test_datasets_fill_random( &ds1 );
+	test_datasets_alloc( &ds2, num_data, len_dataset );
+	test_datasets_fill_random( &ds2 );
+#endif
 
 // Multiply
 #if 1
-	test_muldiv_cpu( bd1, bd2, num_data, len_dataset, br );
+	test_muldiv_cpu( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br1 );
 #endif
 
 #if 0
-	test_muldiv_cuda( bd1, bd2, num_data, len_dataset, br2 );
-	test_verify_result( bd1, bd2, br, br2, num_data, len_dataset );
+	test_muldiv_cuda( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br2 );
+	test_verify_result( ds1.bv1, ds1.bv2, ds1.br1, ds1.br2, ds1.num_data, ds1.len_dataset );
 #endif 
 
-	test_muldiv_cuda_pagelocked( bd1, bd2, num_data, len_dataset, br2 );
+	test_muldiv_cuda_pagelocked( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br2 );
 #if 1
-	test_verify_result( bd1, bd2, br, br2, num_data, len_dataset );
+	test_verify_result( ds1.bv1, ds1.bv2, ds1.br1, ds1.br2, ds1.num_data, ds1.len_dataset );
 #endif
 
 	printf( "Finished\n" );
+#if 0
 	free(bds);
 	free(br);
 	free(br2);
+#endif
+#if 1
+	test_datasets_free( &ds1 );
+	test_datasets_free( &ds2 );
+#endif
 	return 0;
 }

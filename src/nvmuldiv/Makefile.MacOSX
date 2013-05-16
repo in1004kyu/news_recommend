@@ -4,8 +4,10 @@ LINKER = gcc
 # nvcc -o test test.c nvmuldiv_cpu.c nvmuldiv_cuda_thrust.cu
 #
 CFLAGS= -g -D__NVMULDIV_ENABLE_VERIFY__ -Wall
-#CFLAGS= -g -Wall
 NVCCFLAGS=-m64 --shared --compiler-options '-fPIC' -g -D__NVMULDIV_ENABLE_VERIFY__ 
+
+#CFLAGS= -g -Wall
+#NVCCFLAGS=-m64 --shared --compiler-options '-fPIC' -g 
 
 NVCC=nvcc
 
