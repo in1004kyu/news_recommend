@@ -9,7 +9,7 @@ int main()
 	int i;
 
 	// Open input text file: test.txt
-	ret = d2v_open(&d2v_ctx,"test/n1_utf.txt");
+	ret = d2v_open(&d2v_ctx,"n1_utf.txt");
 	if( ret != D2V_STATUS_SUCCESS ){
 		printf("d2v open error!\n");
 		return 0;

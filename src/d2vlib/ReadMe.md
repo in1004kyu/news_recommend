@@ -6,34 +6,18 @@ Compile
 $ make
 
 필요 파일
-test.txt
-<pre>
-test 10
-gtt 20
-d2v 30
-pdvl 40
-src 50
-document 60
-</pre>
-
-=>
-현재 plain text에서 < 단어 , 빈도 > 를 뽑아주는 루틴은 d2v에 포함시키지 않은 상태,
-따라서 단어 빈도에 대한 파일필요
-
-
+test/n1_utf.txt
+test/default.gtt
+test/hidc(사전)
 
 실행
-$./test
+$ cd test
+$ ./d2v_test
 
 결과 출력
-<pre>
-(TID), 10
-(TID), 20
-(TID), 30
-(TID), 40
-(TID), 50
-(TID), 60
-</pre>
+n1_uft.txt 파일에 단어 및 빈도수를 추출하여
+추출한 단어를 gtt table에 업데이트하고,
+TID, 빈도수에 대한 document vector를 생성한다.
 
 
 
