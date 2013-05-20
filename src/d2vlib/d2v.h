@@ -44,6 +44,8 @@ typedef struct{
  */
 typedef struct {
 	FILE *input_fp;
+	unsigned char *text;
+	int malloc_size;
 	gtt_ctx_t gtt_ctx;
 } d2v_ctx_t;	
 
