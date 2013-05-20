@@ -1,6 +1,7 @@
 #include <thrust/version.h>
 #include <iostream>
 #include <thrust/device_vector.h>
+#include <stdio.h>
 
 #include <stdlib.h>
 #include <time.h>

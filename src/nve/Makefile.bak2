@@ -1,0 +1,48 @@
+PATH_DEST_LIB=../../lib
+PATH_DEST_BIN=../../bin
+TARGET_LIB=libnve.so
+NVETEST=nveTest
+CC=gcc
+CFLAGS=-Wall -g
+
+SHARED_FLAGS = -fPIC
+LN = ln
+MV = mv
+MAJOR_VERSION = 1
+MINOR_VERSION = 0
+SHARED_SO_NAME = libnve.so.$(MAJOR_VERSION)
+SHAERD_REAL_NAME = $(SHARED_SO_NAME).$(MINOR_VERSION)
+LIB_FULL_NAME = $(PATH_DEST_LIB)/$(SHARED_REAL_NAME)
+
+all : $(TARGET_LIB) $(NVETEST)
+	@echo "================ NVE ================"
+	@echo "Copying library $(TARGET_LIB) to $(PATH_DEST_LIB)"
+	cp $(TARGET_LIB) $(PATH_DEST_LIB)
+	@echo "Copying binary $(NVETEST) to $(PATH_DEST_BIN)"
+	cp $(NVETEST) $(PATH_DEST_BIN)
+	@echo "================ DONE ==============="
+
+#$(PATH_DEST_LIB):
+#	make -p $(PATH_DEST_LIB)
+
+#$(PATH_DEST_BIN):
+#	make -p $(PATH_DEST_BIN)
+
+$(LIB_FULL_NAME) : nve.o
+	
+
+$(TARGET_LIB): nve.o $(PATH_DEST_LIB)
+	$(CC) -shared -Wl,-soname,$(SHARED_SO_NAME) -o $@ $<
+	$(LN) -fs $(SHARED_REAL_NAME) $(SHARED_SO_NAME)
+	$(LN) -fs $(SHARED_SO_NAME) libnve.so
+	$(MV) $(SHARED_SO_NAME) libnve.so $(PATH_DEST_LIB)/
+	
+nve.o : nve.c
+	$(CC) $(CFLAGS) -c -o $@ $< $(SHARED_FLAGS)
+
+$(NVETEST):nveTest.o $(TARGET_LIB) $(PATH_DEST_BIN)
+	$(CC) $(CFLAGS) -o $@ nveTest.o -lnve -L.
+clean :
+	rm -rf *.o $(TARGET_LIB) $(NVETEST)
+	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
+	rm -f $(PATH_DEST_BIN)/$(NVETEST)
