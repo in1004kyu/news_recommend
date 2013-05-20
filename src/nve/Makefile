@@ -34,5 +34,3 @@ clean :
 	rm -rf *.o $(TARGET_LIB) $(NVETEST)
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/$(NVETEST)
-# DO NOT DELETE
-nve.o: nve.c nve.h 

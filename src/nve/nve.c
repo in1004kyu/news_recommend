@@ -38,10 +38,10 @@ float nve(d2v_vector_t dv, d2v_vector_t pdvl_subset, int pdvl_full_length){
 	}
 
 	for(i = 0; i < pdvl_subset.length; i++)
-		pdvl_cnt_sum += pdvl_subset.elements[i].count;
+		pdvl_cnt_sum += pdvl_subset.element[i].count;
 
 	for(i = 0; i< dv.length; i++)
-		dv_cnt_sum += dv.elements[i].count;
+		dv_cnt_sum += dv.element[i].count;
 
 	frequencies = (float **)malloc(sizeof(float*)*2);
 
@@ -49,10 +49,10 @@ float nve(d2v_vector_t dv, d2v_vector_t pdvl_subset, int pdvl_full_length){
 		frequencies[i] = (float *)malloc(sizeof(float)*dv_cnt_sum);
 
 	for(i = 0; i< dv.length; i++){
-		for(j = 0; j< dv.elements[i].count; j++){
+		for(j = 0; j< dv.element[i].count; j++){
 			for(h = 0; h < pdvl_subset.length; h++){
-				if(dv.elements[i].id == pdvl_subset.elements[h].id){
-					frequencies[DIVIDEND][frequency_index] = (float)pdvl_subset.elements[h].count;
+				if(dv.element[i].id == pdvl_subset.element[h].id){
+					frequencies[DIVIDEND][frequency_index] = (float)pdvl_subset.element[h].count;
 					frequencies[DIVISOR][frequency_index] = (float)pdvl_cnt_sum;
 					frequency_index++;
 					islaplace = AVAILABLE;
