@@ -1,6 +1,6 @@
 #include "nve.h"
-#define PDVL_COUNT	4
-#define DVL_COUNT	3
+#define PDVL_COUNT	20
+#define DVL_COUNT	5
 #define PDVLSUB_COUNT 3
 void init(d2v_vector_t* vector_list, int len){
 	int i;
@@ -9,7 +9,7 @@ void init(d2v_vector_t* vector_list, int len){
 
 	for(i = 0; i < len; i++){		
 		vector_list->element[i].id = i;
-		vector_list->element[i].count = (rand() % len) + 1;
+		vector_list->element[i].count = (rand() % (len/2)) + 1;
 	}
 }
 
@@ -39,7 +39,7 @@ int main(){
 	vector_print(dvl);
 	
 
-	printf("score is %f\n",nve(dvl, pdvl, PDVL_COUNT) );
+	printf("score is %e\n",nve(dvl, pdvl, PDVL_COUNT) );
 
 	vector_free(&pdvl);
 	vector_free(&dvl);
