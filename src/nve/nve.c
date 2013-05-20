@@ -80,11 +80,11 @@ float nve(d2v_vector_t dv, d2v_vector_t pdvl_subset, int pdvl_full_length){
 				// 전체 pdvl가 가지고 있는 단어의 갯수를 분자로 하면 각 단어의 출현 확률값이 나온다.
 				if(dv.element[i].id == pdvl_subset.element[h].id){
 
-					dividend = (float)pdvl_subset.element[h].count; 
+					dividend = (float)pdvl_subset.element[h].count * 100; 
 					divisor = (float)pdvl_cnt_sum;
 					
-		printf("dividend is %f\n", dividend);
-		printf("divisor is %f\n", divisor);
+					printf("dividend is %f\n", dividend);
+					printf("divisor is %f\n", divisor);
 					probability[frequency_index] = dividend/divisor;
 					
 					/*

@@ -1,6 +1,6 @@
 #include "nve.h"
-#define PDVL_COUNT	20
-#define DVL_COUNT	5
+#define PDVL_COUNT	100
+#define DVL_COUNT	10
 #define PDVLSUB_COUNT 3
 void init(d2v_vector_t* vector_list, int len){
 	int i;
