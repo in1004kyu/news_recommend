@@ -2,6 +2,8 @@
       D2V 컴파일 방법 및 테스트 방법
 ******************************************/
 
+Compile 전에 install_libiconv.sh 를 통해 libiconv 설치 필요
+
 Compile
 
 $ make
