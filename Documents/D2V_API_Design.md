@@ -22,15 +22,17 @@ Data Types
 - d2v_ctx_t
 	- D2V API를 사용 시 필요한 데이터 집합
 	- Input 파일 포인터
-	- Document Vector 저장소
+	- Input text 저장소
+	- Input text 저장할 메모리 할당 크기
 	- D2V 에서 사용할 gtt library 를 위한 gtt_ctx_t 변수
 
 <pre>
-typedef struct{
+typedef struct {
 	FILE *input_fp;
+	unsigned char *text;
+	int malloc_size;
 	gtt_ctx_t gtt_ctx;
-	d2v_vector_t document_vector;
-}d2v_ctx_t;
+} d2v_ctx_t;
 </pre>
 
 - d2v_status_t
@@ -76,7 +78,7 @@ Functions
 4. free_vector : 생성 된 Document Vector를 해제
 
 - <code>d2v_status_t d2v_open(d2v_ctx_t *pctx, char *filename)</code>
-    - <i>API 사용을 위한 GTT 라이브러리 사용 준비</i>
+    - <i>API 사용을 위한 GTT 라이브러리 사용 준비 pctx->text 에 input text 내용을 저장해 놓는다.</i>
     - Input
     	- d2v_ctx_t *pctx : 라이브러리에서 공유 할 데이터 저장한 d2v 데이터 타입에 대한 포인터
 	- char *filename : 입력 문서 이름
