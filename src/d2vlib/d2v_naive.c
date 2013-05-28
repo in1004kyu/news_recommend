@@ -211,14 +211,16 @@ d2v_status_t d2v_close(d2v_ctx_t *pctx)
 {
 	gtt_status_t ret;
 	ret = gtt_close(&pctx->gtt_ctx);
-	free(pctx->text);
 	if( ret != GTT_STATUS_SUCCESS)
 		return D2V_STATUS_ERROR_CLOSE;
+	fclose(pctx->input_fp);
+	free(pctx->text);
 	return D2V_STATUS_SUCCESS;
 }
 
 d2v_status_t d2v_free_vector(d2v_vector_t *doc_vec)
 {
+	doc_vec->length = 0;
 	free(doc_vec->element);
 	return D2V_STATUS_SUCCESS;
 }
