@@ -106,10 +106,11 @@ extern "C" int nvmuldiv_seg_cuda_devmem( float *n_d, float *d_d, int len, float 
 		//fprintf( stderr, "nvmuldiv_seg_cuda_devmem: vr_d: %p local-allocated\n", vr_d );
 	}
 // kernel
-	result = vdiv_cuda_devmem( n_d, d_d, vr_d, len );
+	/*result = vdiv_cuda_devmem( n_d, d_d, vr_d, len );
 	if ( result == 0 ) {
 		result = reduce_mul_seg_devmem( vr_d, len, r_d, len_r );
-	}
+	}*/
+	reduce_divmul_seg_devmem(n_d,d_d,vr_d,len,r_d,len_r);
 // free
 	if ( localAlloc ) {
 		//fprintf( stderr, "nvmuldiv_seg_cuda_devmem: freeing vr_d: %p local-allocated\n", vr_d );

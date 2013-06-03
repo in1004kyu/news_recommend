@@ -108,6 +108,61 @@ void test_muldiv_cuda(float *bd1, float *bd2, int num_data, int len_dataset, flo
 	}
 }
 
+/*void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
+{
+	int i;
+	long ts1, ts2;
+
+
+	float *bd1_h = nvmuldiv_mapped_alloc( sizeof(float) * num_data * len_dataset);
+	float *bd2_h = nvmuldiv_mapped_alloc( sizeof(float) * num_data * len_dataset);
+	float *br_h = nvmuldiv_mapped_alloc( sizeof(float) * num_data );
+
+	float *bd1_d;
+	float *bd2_d;
+	float *br_d;
+
+	fprintf(stderr, "CUDA Page Locked...\n" );
+
+	if ( bd1_h != NULL && bd2_h != NULL && br_h != NULL ) {
+		bd1_d = nvmuldiv_mapped_device( bd1_h );
+		bd2_d = nvmuldiv_mapped_device( bd2_h );
+		br_d = nvmuldiv_mapped_device( br_h) ;
+
+		memcpy( bd1_h, bd1, sizeof(float) * num_data * len_dataset );
+		memcpy( bd2_h, bd2, sizeof(float) * num_data * len_dataset );
+		memcpy( br_d, br, sizeof(float) * num_data ); //??????????????? why dr_d...
+
+		float *vr_d = NULL;
+		vr_d = nvmuldiv_device_alloc( sizeof(float) * num_data * len_dataset );
+		//cudaMalloc( &vr_d, sizeof(float) * num_data * len_dataset );
+		int result = 0;
+
+		ts1 = nvmuldiv_timestamp();
+		for( i = 0; result == 0 && i < NUM_TEST_LOOP; i++ ) {
+			result = nvmuldiv_seg_cuda_devmem( bd1_d, bd2_d, num_data * len_dataset, br_d, len_dataset, vr_d );
+			cudaDeviceSynchronize();
+		}
+		ts2 = nvmuldiv_timestamp();
+
+		if ( result != 0 ) {
+			fprintf( stderr, "Error occured at %dth iteration\n", i );
+		} else {
+			memcpy(br, br_h, sizeof(float) * num_data );
+			test_print_duration( "Elapsed time", ts2-ts1 );
+		}
+		nvmuldiv_mapped_free( bd1_h );
+		nvmuldiv_mapped_free( bd2_h );
+		nvmuldiv_mapped_free( br_h );
+		if ( vr_d != NULL ) nvmuldiv_device_free( vr_d );
+	} else {
+		fprintf( stderr, "test_muldiv_cuda_pagelocked: memory allocation error\n" );
+		fprintf( stderr, " - bd1_h:%p\n", bd1_h );
+		fprintf( stderr, " - bd2_h:%p\n", bd2_h );
+		fprintf( stderr, " - br_h:%p\n", br_h );
+	}
+}*/
+
 void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
 {
 	int i;
@@ -131,7 +186,7 @@ void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_d
 
 		memcpy( bd1_h, bd1, sizeof(float) * num_data * len_dataset );
 		memcpy( bd2_h, bd2, sizeof(float) * num_data * len_dataset );
-		memcpy( br_d, br, sizeof(float) * num_data );
+		memcpy( br_d, br, sizeof(float) * num_data ); //??????????????? why dr_d...
 
 		float *vr_d = NULL;
 		vr_d = nvmuldiv_device_alloc( sizeof(float) * num_data * len_dataset );
@@ -250,7 +305,7 @@ int main(void)
 	int len_dataset = NUM_LEN_DATASET;
 	int result;
 
-#if 0
+#if 1
 	float *bd1;	// bulk dataset 1
 	float *bd2;	// bulk dataset 2
 #endif
@@ -264,7 +319,7 @@ int main(void)
 	nvmuldiv_init();
 	test_reduce_mul();
 
-#if 0
+#if 1
 	printf( "Number of input data:%d of %d datasets\n", num_data, len_dataset );
 	float *bds = malloc( sizeof(float) * num_data * len_dataset * 2);
 	float *br = malloc( sizeof(float) * num_data );	// bulk result;
@@ -301,7 +356,7 @@ int main(void)
 	test_muldiv_cpu( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br1 );
 #endif
 
-#if 0
+#if 1
 	test_muldiv_cuda( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br2 );
 	test_verify_result( ds1.bv1, ds1.bv2, ds1.br1, ds1.br2, ds1.num_data, ds1.len_dataset );
 #endif 
