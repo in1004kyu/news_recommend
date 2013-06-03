@@ -9,7 +9,7 @@
 
 #define NUM_DEFAULT_DATA	60000
 #define NUM_LEN_DATASET		512
-#define NUM_TEST_LOOP		10
+#define NUM_TEST_LOOP		100
 
 typedef struct {
 	void *heap;
@@ -94,7 +94,7 @@ void test_muldiv_cuda(float *bd1, float *bd2, int num_data, int len_dataset, flo
 	long ts1, ts2;
 	int result = 0;
 
-	fprintf(stderr, "CUDA...\n" );
+	fprintf(stderr, "CUDA - Bulk Processing...\n" );
 	ts1 = nvmuldiv_timestamp();
 
 	for( i = 0; result == 0 && i < NUM_TEST_LOOP; i++ ) {
@@ -108,7 +108,7 @@ void test_muldiv_cuda(float *bd1, float *bd2, int num_data, int len_dataset, flo
 	}
 }
 
-/*void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
+void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
 {
 	int i;
 	long ts1, ts2;
@@ -122,7 +122,7 @@ void test_muldiv_cuda(float *bd1, float *bd2, int num_data, int len_dataset, flo
 	float *bd2_d;
 	float *br_d;
 
-	fprintf(stderr, "CUDA Page Locked...\n" );
+	fprintf(stderr, "CUDA - Bulk Processing + Page Locked...\n" );
 
 	if ( bd1_h != NULL && bd2_h != NULL && br_h != NULL ) {
 		bd1_d = nvmuldiv_mapped_device( bd1_h );
@@ -161,9 +161,9 @@ void test_muldiv_cuda(float *bd1, float *bd2, int num_data, int len_dataset, flo
 		fprintf( stderr, " - bd2_h:%p\n", bd2_h );
 		fprintf( stderr, " - br_h:%p\n", br_h );
 	}
-}*/
+}
 
-void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
+void test_muldiv_cuda_pagelocked_fusedk(float *bd1, float *bd2, int num_data, int len_dataset, float *br)
 {
 	int i;
 	long ts1, ts2;
@@ -177,7 +177,7 @@ void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_d
 	float *bd2_d;
 	float *br_d;
 
-	fprintf(stderr, "CUDA Page Locked...\n" );
+	fprintf(stderr, "CUDA - Bulk Processing + Page Locked + Single Kernel...\n" );
 
 	if ( bd1_h != NULL && bd2_h != NULL && br_h != NULL ) {
 		bd1_d = nvmuldiv_mapped_device( bd1_h );
@@ -195,7 +195,7 @@ void test_muldiv_cuda_pagelocked(float *bd1, float *bd2, int num_data, int len_d
 
 		ts1 = nvmuldiv_timestamp();
 		for( i = 0; result == 0 && i < NUM_TEST_LOOP; i++ ) {
-			result = nvmuldiv_seg_cuda_devmem( bd1_d, bd2_d, num_data * len_dataset, br_d, len_dataset, vr_d );
+			result = nvmuldiv_seg_fused_cuda_devmem( bd1_d, bd2_d, num_data * len_dataset, br_d, len_dataset, vr_d );
 			cudaDeviceSynchronize();
 		}
 		ts2 = nvmuldiv_timestamp();
@@ -362,6 +362,11 @@ int main(void)
 #endif 
 
 	test_muldiv_cuda_pagelocked( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br2 );
+#if 1
+	test_verify_result( ds1.bv1, ds1.bv2, ds1.br1, ds1.br2, ds1.num_data, ds1.len_dataset );
+#endif
+
+	test_muldiv_cuda_pagelocked_fusedk( ds1.bv1, ds1.bv2, ds1.num_data, ds1.len_dataset, ds1.br2 );
 #if 1
 	test_verify_result( ds1.bv1, ds1.bv2, ds1.br1, ds1.br2, ds1.num_data, ds1.len_dataset );
 #endif

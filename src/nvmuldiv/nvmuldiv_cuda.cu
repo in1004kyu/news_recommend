@@ -106,10 +106,30 @@ extern "C" int nvmuldiv_seg_cuda_devmem( float *n_d, float *d_d, int len, float 
 		//fprintf( stderr, "nvmuldiv_seg_cuda_devmem: vr_d: %p local-allocated\n", vr_d );
 	}
 // kernel
-	/*result = vdiv_cuda_devmem( n_d, d_d, vr_d, len );
+	result = vdiv_cuda_devmem( n_d, d_d, vr_d, len );
 	if ( result == 0 ) {
 		result = reduce_mul_seg_devmem( vr_d, len, r_d, len_r );
-	}*/
+	}
+// free
+	if ( localAlloc ) {
+		//fprintf( stderr, "nvmuldiv_seg_cuda_devmem: freeing vr_d: %p local-allocated\n", vr_d );
+		nvmuldiv_device_free( vr_d );
+	}
+	return result;
+}
+
+extern "C" int nvmuldiv_seg_fused_cuda_devmem( float *n_d, float *d_d, int len, float *r_d, int len_r, float *vr_d )
+{
+	int result = 0;
+	bool localAlloc = false;
+// alloc
+	if ( vr_d == NULL ) {
+		vr_d = (float *) nvmuldiv_device_alloc( len * sizeof(float) );
+		localAlloc = true;
+		//fprintf( stderr, "nvmuldiv_seg_cuda_devmem: vr_d: %p local-allocated\n", vr_d );
+	}
+// kernel
+
 	reduce_divmul_seg_devmem(n_d,d_d,vr_d,len,r_d,len_r);
 // free
 	if ( localAlloc ) {

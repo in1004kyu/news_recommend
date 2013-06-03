@@ -26,7 +26,7 @@ endif
 OBJS=test.o 
 
 TARGET_LIB=libnvmuldiv.so
-LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o nvmuldiv.o
+LIB_OBJS=nvmuldiv_cpu.o nvmuldiv_cuda_thrust.o nvmuldiv_cuda.o vdiv.o reduce_mul.o nvmuldiv.o divreduce_mul.o
 TARGET_BIN=test_nvmuldiv
 PUBLIC_HEADERS=nvmuldiv.h
 
@@ -66,6 +66,9 @@ nvmuldiv_cuda.o : nvmuldiv_cuda.cu
 	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
 
 reduce_mul.o : reduce_mul.cu
+	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
+	
+divreduce_mul.o : divreduce_mul.cu
 	$(NVCC) $(NVCCFLAGS) --compile -o $@ $<
 
 vdiv.o : vdiv.cu
