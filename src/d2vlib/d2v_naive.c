@@ -6,7 +6,7 @@
 
 #include"d2v.h"
 #include "header/ham-ndx.h"
-#include "../include/iconv.h"
+#include "../../include/iconv.h"
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -64,10 +64,14 @@ d2v_status_t d2v_iconv_euc_text(d2v_ctx_t *pctx)
 		printf("fail to iconv_open()\n");
 		return D2V_STATUS_ERROR_OPEN;
 	}
+	{
+		int discard_ilseq = 1;
+		iconvctl(cd, ICONV_SET_DISCARD_ILSEQ, (void *) &discard_ilseq );
+	}
 
 	if( (nRet = iconv(cd, (char ** __restrict__)&pszIn, &nIn, &pszOut, &nOut)) == (size_t)-1 )
 	{
-		printf("fail to iconv()\n");
+		printf("iconv:euc_kr to utf8 - fail to iconv()\n");
 		return D2V_STATUS_ERROR_OPEN;
 	}
 	nOut = pszOut - szOut;
@@ -99,10 +103,14 @@ d2v_status_t d2v_iconv_utf_word(char *input_word, char *output_word)
 		printf("fail to iconv_open()\n");
 		return D2V_STATUS_ERROR_OPEN;
 	}
+	{
+		int discard_ilseq = 1;
+		iconvctl(cd, ICONV_SET_DISCARD_ILSEQ, (void *) &discard_ilseq );
+	}
 
 	if( (nRet = iconv(cd, (char ** __restrict__)&pszIn, &nIn, &pszOut, &nOut)) == (size_t)-1 )
 	{
-		printf("fail to iconv()\n");
+		printf("iconv:utf8 to euc_kr - fail to iconv()\n");
 		return D2V_STATUS_ERROR_OPEN;
 	}
 	nOut = pszOut - szOut;

@@ -17,7 +17,7 @@ all:$(D2VTEST) $(TARGET_LIB)
 	cp test.txt $(PATH_DEST_BIN)
 
 $(D2VTEST): test.o d2v_naive.o gtt_naive.o $(TARGET_LIB)
-	$(CC) $(CFLAGS) -o $@ test.o d2v_naive.o gtt_naive.o -ld2v -L. -lindex-TEST
+	$(CC) $(CFLAGS) -o $@ test.o d2v_naive.o gtt_naive.o -ld2v -L. -lindex-TEST -L$(PATH_DEST_LIB) -liconv
 
 $(TARGET_LIB): $(LIB_OBJS) $(PATH_DEST_LIB)
 	$(CC) -shared -Wl -o $@ $(LIB_OBJS)
