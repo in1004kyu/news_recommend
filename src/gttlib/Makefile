@@ -14,7 +14,7 @@ all : $(TARGET_LIB) $(TEST) $(TEST2)
 	@echo "Copying binary $(TEST2) to $(PATH_DEST_BIN)"
 	cp $(TEST) $(PATH_DEST_BIN)
 	cp $(TEST2) $(PATH_DEST_BIN)
-	cp default.gtt $(PATH_DEST_BIN)
+#	cp default.gtt $(PATH_DEST_BIN)
 	@echo "================ DONE ==============="
 
 $(PATH_DEST_LIB):
@@ -40,5 +40,5 @@ clean :
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/$(TEST)
 	rm -f $(PATH_DEST_BIN)/$(TEST2)
-	rm -f $(PATH_DEST_BIN)/default.gtt
+#	rm -f $(PATH_DEST_BIN)/default.gtt
 

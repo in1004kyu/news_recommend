@@ -11,7 +11,7 @@ all : $(TARGET_LIB) $(TEST)
 	cp $(TARGET_LIB) $(PATH_DEST_LIB)
 	@echo "Copying binary $(TEST) to $(PATH_DEST_BIN)"
 	cp $(TEST) $(PATH_DEST_BIN)
-	cp default.pdvl $(PATH_DEST_BIN)
+#	cp default.pdvl $(PATH_DEST_BIN)
 	@echo "================ DONE ==============="
 
 $(PATH_DEST_LIB):
@@ -39,6 +39,5 @@ clean :
 	rm -rf *.o $(TARGET_LIB) $(TEST)
 	rm -f $(PATH_DEST_LIB)/$(TARGET_LIB)
 	rm -f $(PATH_DEST_BIN)/$(TEST)
-	rm -f $(PATH_DEST_BIN)/default.pdvl
 #	rm *.o
 #	rm test

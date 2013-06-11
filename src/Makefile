@@ -1,6 +1,6 @@
 MAEK = make
 
-SUB_DIRS = nve d2vlib gttlib pdvllib nvmuldiv traind
+SUB_DIRS = nve d2vlib gttlib pdvllib nvmuldiv traind evald
 CLEANDIRS = $(SUB_DIRS:%=clean-%)
 
 all:subdirs

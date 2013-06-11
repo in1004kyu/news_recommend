@@ -99,3 +99,21 @@ pdvl_count_t pdvl_get_count(pdvl_ctx_t* pctx, pdvl_tid_t doc_tid)
 	fseek( pctx->pdvl_fp, 0, SEEK_SET ); // pdvl file point reset
 	return -1; //NOT FOUND
 }
+
+
+pdvl_count_t pdvl_get_full_count(pdvl_ctx_t* pctx)
+{
+    char line[MAX_LINE];        // file buffer
+    pdvl_tid_t tid=0;       // tid of pdvl
+    pdvl_count_t count = 0;         // count of pdvl
+	pdvl_count_t total = 0;
+    
+    while( fgets(line, MAX_LINE, pctx->pdvl_fp ) != NULL ){
+        sscanf(line,"%u %u", &tid, &count);
+		total += count;
+    }
+    fseek( pctx->pdvl_fp, 0, SEEK_SET ); // pdvl file point reset
+	return total;
+}
+
+

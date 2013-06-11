@@ -2,7 +2,7 @@ PATH_DEST_LIB=../../lib
 PATH_DEST_BIN=../../bin
 TARGET_LIB=libnve.so
 NVETEST=nveTest
-CC=gcc
+CC=gcc 
 CFLAGS=-Wall -g
 
 all : $(TARGET_LIB) $(NVETEST)
@@ -20,13 +20,13 @@ all : $(TARGET_LIB) $(NVETEST)
 #	make -p $(PATH_DEST_BIN)
 
 $(TARGET_LIB): nve.o $(PATH_DEST_LIB)
-	$(CC) -shared -Wl -o $@  nve.o
+	$(CC) -shared -Wl -o $@  nve.o -lm
 
 nve.o : nve.c
-	$(CC) $(CFLAGS) -c -o $@ $< -fPIC
+	$(CC) $(CFLAGS) -c -o $@ $< -fPIC 
 
 $(NVETEST):nveTest.o $(TARGET_LIB) $(PATH_DEST_BIN)
-	$(CC) $(CFLAGS) -o $@ nveTest.o -lnve -L.
+	$(CC) $(CFLAGS) -o $@ nveTest.o -lnve -L. -lm
 
 depend:
 	gccmakedep nve.c

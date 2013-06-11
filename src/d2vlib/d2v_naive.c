@@ -143,18 +143,21 @@ d2v_status_t d2v_get_terms_text(d2v_ctx_t *pctx,d2v_vector_t *doc_vec)
 
 	//	put_terms(fpoutf, Term, n, TM.memTermString);
 
+/*
 	printf("------------------------------------------------------------------------\n");
 	printf("Term\t\tFreq\n");
 	printf("------------------------------------------------------------------------\n");
-
+*/
 	doc_vec->element = (d2v_element_t *)malloc(n*sizeof(d2v_element_t));
 	for( i = 0; i < n; i++)
 	{
 		memset(iconv_word, 0x00, sizeof(iconv_word));
 		d2v_iconv_utf_word((char *)TM.memTermString+Term[i].offset,iconv_word);
+/*
 		printf("%s\t\t%3d\n", 
 				iconv_word,
 				Term[i].tf);
+*/
 		gtt_update_term(&pctx->gtt_ctx,
 				(gtt_term_t)iconv_word,
 				&TID);
@@ -164,7 +167,7 @@ d2v_status_t d2v_get_terms_text(d2v_ctx_t *pctx,d2v_vector_t *doc_vec)
 
 	}
 
-	printf("------------------------------------------------------------------------\n");
+//	printf("------------------------------------------------------------------------\n");
 
 	close_HAM_index(&mode);
 
