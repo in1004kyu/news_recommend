@@ -56,8 +56,8 @@ Program Out put
 ===============
 
 <pre>
-$ make
-$ cd bin/
+$make
+$cd bin/
 $. env.sh
 $./collect_test
 $./train_test
