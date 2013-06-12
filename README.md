@@ -30,7 +30,7 @@ Directory Descriptions
     - NVE 내부에서 Naive Bayesian Algorithm을 수행하는데 필요한 산술적인 연산을 CUDA 기반으로 구현
 
 How to Run the test program
---------
+--------------------------
 - Make
 	- 상위폴더에서 make 실행
 	- /bin 에서 . env.sh 커맨드 실행
@@ -51,6 +51,10 @@ How to Run the test program
 	- Recommend news -> Threshold의 반값보다 높은 뉴스들중 탑 10인 뉴스들
 	- New news 		 -> 그외 새로 들어온 뉴스들
 	- 문서이름, 출몰한 단어수들 / 점수
+
+Program Out put
+===============
+
 <pre>
 $ ./eval\_test
 
@@ -109,7 +113,6 @@ test18 cnt:82 / score 0.207674
 test36 cnt:120 / score 0.201029
 test32 cnt:220 / score 0.180201
 test13 cnt:76 / score 0.129105
-
 </pre>
 
 
