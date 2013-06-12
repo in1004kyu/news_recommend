@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define TESTSIZE 50
+#define TESTSIZE 500
 
  void init(d2v_vector_t* vector_list, int len){
      vector_list->length = len;

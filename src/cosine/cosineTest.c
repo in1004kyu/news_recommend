@@ -38,7 +38,7 @@ int main(){
 	for(i = 0; i < PDVL_COUNT; i++)
 		pdvl_full_count += pdvl.element[i].count;
 
-	printf("score is %f\n",cosineSim(dvl, pdvl, PDVL_COUNT, pdvl_full_count) );
+	printf("score is %f\n",cosineSim(dvl, pdvl));
 
 	vector_free(&pdvl);
 	vector_free(&dvl);
