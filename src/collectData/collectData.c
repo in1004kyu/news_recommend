@@ -14,7 +14,7 @@ int main(){
 	int i = 0;
 	FILE *out;
 	char filePath[40];
-	char filename[28] = "../../example/incoming/test";
+	char filename[25] = "../example/incoming/test";
 	char filetype[5] = ".txt";
 	
 	if( !(conn = mysql_init((MYSQL*)NULL))){        //초기화 함수
