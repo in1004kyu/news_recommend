@@ -37,7 +37,7 @@ How to Run the test program
 - Download test data
 	- mysql.h 라이브러리를 설치해야한다. 
 	- 따로 evaluation 할 뉴스 데이터가 있으면 /example/incomming에 test[0부터 n].txt 포맷으로 데이터를 넣어둔다.
-	- /src/collectData에서 make 실행후 ./collect_test 실행 
+	- /bin 에서 ./collect_test 실행
 	- 약 7만여개의 테스트용 뉴스 데이터를 다운받는다.
 - Training Data
 	- /bin에서 ./train_test 실행
@@ -56,7 +56,12 @@ Program Out put
 ===============
 
 <pre>
-$ ./eval\_test
+$ make
+$ cd bin/
+$. env.sh
+$./collect_test
+$./train_test
+$./evald_test
 
 ----------- Best Recommend news -----------
 
