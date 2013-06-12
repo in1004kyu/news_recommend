@@ -29,6 +29,23 @@ Directory Descriptions
 - nvmuldiv/
     - NVE 내부에서 Naive Bayesian Algorithm을 수행하는데 필요한 산술적인 연산을 CUDA 기반으로 구현
 
+How to Test this program
+--------
+- Make
+	- 상위폴더에서 make 실행
+	- /bin 에서 . env.sh 커맨드 실행
+- Download test data
+	- mysql.h 라이브러리를 설치해야한다. 
+	- 따로 evaluation 할 뉴스 데이터가 있으면 /example/incomming에 test[0부터 n].txt 포맷으로 데이터를 넣어둔다.
+	- /src/collectData에서 make 실행후 ./collect_test 실행 
+	- 약 7만여개의 테스트용 뉴스 데이터를 다운받는다.
+- Training Data
+	- /bin에서 ./train_test 실행
+- Evaluation 방법
+ 	- TESTSIZE 값을 테스트할 뉴스의 갯수를 지정해둔다
+	- 만약 50이라고 되있으면 /example/incomming 안의 test0.txt ~ test50.txt 파일을 판별해서 추천한다.
+	- /bin에서 ./eval_test 를 실행하면 프로그램이 추천을 해준다
+
 Schedule
 --------
 - 형준
