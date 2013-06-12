@@ -4,8 +4,9 @@
 #include "../cosine/cosine.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-#define TESTSIZE 500
+#define TESTSIZE 50
 
  void init(d2v_vector_t* vector_list, int len){
      vector_list->length = len;
@@ -15,9 +16,66 @@
      free(vector_list->element);
  }
 
+struct result{
+	float score;
+	int filenum;
+	int cnt;
+	int recommend;
+};
+
+int partition(const void* num1, const void* num2)
+{
+	if( ((struct result*)num1)->score > ((struct result*)num2)->score )
+		return -1;
+	return ((struct result*)num1)->score < ((struct result*)num2)->score;
+}
+
+void recommend(struct result result[]){
+	FILE *rfp;
+	float threshold;
+	float downThreshold;
+	int i;
+	int top = 0;
+	rfp = fopen("threshold.txt", "r");
+	fscanf(rfp, "%f", &threshold);
+	fclose(rfp);
+
+	downThreshold = threshold/2;
+
+	for(i = 0; i<TESTSIZE; i++){
+		if(threshold <= result[i].score)
+			result[i].recommend = 1;
+		else if(downThreshold <= result[i].score){
+			if(top < 10){
+				result[i].recommend = 2;
+				top++;
+			}
+			else
+				result[i].recommend = 0;
+		}
+		else 
+			result[i].recommend = 0;
+	}
+	printf("\n ---------- Best Recommend news -----------\n");
+	for(i = 0; i<TESTSIZE; i++){
+		if(result[i].recommend == 1)
+			printf("test%d cnt:%d / score %f\n", result[i].filenum, result[i].cnt, result[i].score);
+	}	
+	printf("\n ---------- Recommend news ----------\n");	
+	for(i = 0; i<TESTSIZE; i++){
+		if(result[i].recommend == 2)
+			printf("test%d cnt:%d / score %f\n", result[i].filenum, result[i].cnt, result[i].score);
+	}	
+	printf("\n ---------- New news ----------\n");	
+	for(i = 0; i<TESTSIZE; i++){
+		if(result[i].recommend == 0)
+			printf("test%d cnt:%d / score %f\n", result[i].filenum, result[i].cnt, result[i].score);
+	}	
+
+}
 
 int main(){
-	int i, j, h;
+	int i, j;
 	d2v_ctx_t d2v_ctx;
     d2v_status_t ret;
     d2v_vector_t doc_vec;
@@ -31,14 +89,9 @@ int main(){
 	char filePath[40] = "";
 	char filename[28] = "../example/incoming/test";
 	char filetype[5] = ".txt";
-	int resnum[TESTSIZE];
-	float resscore[TESTSIZE];
-	int termcnt[TESTSIZE];	
-
-	int debcnt=0;	
+	struct result result[TESTSIZE];
 
 	int pdvlcount = 0;
-	h = 0;
 	pdvlRet = pdvl_open(&pdvl, "default.pdvl");
 	if(pdvlRet == PDVL_STATUS_FAIL){
 		printf("pdvl open error!\n");
@@ -60,12 +113,9 @@ int main(){
 		
 		// incomming 뉴스에서 d2v 가져오고(gtt추가) 
 		d2v_get_document_vector(&d2v_ctx, &doc_vec);
-
-		termcnt[i] = doc_vec.length;
-	
+		result[i].cnt = doc_vec.length;
 		// 추출한 d2v의 id를 통해 pdvl에서 해당 아이디와 매칭되는 count를 가져온다
 		// incomming 뉴스의 id, count, pdvl의 count를 가지고 있다 이걸 사용해 naive 사용
-
 		// pdvl 백터 생성
 		init(&pdvlVector, doc_vec.length);	
 
@@ -79,28 +129,23 @@ int main(){
 			pdvlVector.element[j].id = doc_vec.element[j].id;
 			pdvlVector.element[j].count = pdvlcount;
 		}
-		resnum[i] = i;
+		result[i].filenum = i;
 
-
-		//resscore[i] = nve(doc_vec, pdvlVector, doc_vec.length, pdvl_get_full_count(&pdvl));
-		resscore[i] = cosineSim(doc_vec, pdvlVector, doc_vec.length, pdvl_get_full_count(&pdvl));
-		
-			
+		result[i].score = cosineSim(doc_vec, pdvlVector);
 
 		vector_free(&pdvlVector);
-
-
 		d2v_free_vector(&doc_vec);
 		d2v_close(&d2v_ctx);
-			
 	}
 		pdvl_close(&pdvl);
 
+		qsort(result, TESTSIZE, sizeof(struct result), partition);
+		recommend(result);
+/*
 		for(i = 0; i<TESTSIZE; i++){
-						
-			printf("test%d cnt:%d / score %f\n", resnum[i], termcnt[i],resscore[i]);
+			printf("test%d cnt:%d / score %f\n", result[i].filenum, result[i].cnt, result[i].score);
 		}
-
+*/
 	return 0;
 }
 

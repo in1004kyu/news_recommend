@@ -9,7 +9,7 @@ all:$(D2VTEST)
 	cp $(D2VTEST) $(PATH_DEST_BIN)
 
 $(D2VTEST): trainingDemon.o  $(TARGET_LIB)
-	$(CC) $(CFLAGS) -o $@ trainingDemon.o -ld2v -lpdvl -L../../lib -lindex-TEST -liconv
+	$(CC) $(CFLAGS) -o $@ trainingDemon.o -lcosine -ld2v -lpdvl -L../../lib -lindex-TEST -liconv
 
 clean :
 	rm -f *.o
