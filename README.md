@@ -29,7 +29,7 @@ Directory Descriptions
 - nvmuldiv/
     - NVE 내부에서 Naive Bayesian Algorithm을 수행하는데 필요한 산술적인 연산을 CUDA 기반으로 구현
 
-How to Test this program
+How to Run the test program
 --------
 - Make
 	- 상위폴더에서 make 실행
@@ -45,6 +45,72 @@ How to Test this program
  	- TESTSIZE 값을 테스트할 뉴스의 갯수를 지정해둔다
 	- 만약 50이라고 되있으면 /example/incomming 안의 test0.txt ~ test50.txt 파일을 판별해서 추천한다.
 	- /bin에서 ./eval_test 를 실행하면 프로그램이 추천을 해준다
+
+- 아웃풋 설명
+	- Best Recommend -> 추천 기준값인 Threshold 보다 높은 뉴스들
+	- Recommend news -> Threshold의 반값보다 높은 뉴스들중 탑 10인 뉴스들
+	- New news 		 -> 그외 새로 들어온 뉴스들
+	- 문서이름, 출몰한 단어수들 / 점수
+<pre>
+$ ./eval_test
+ ---------- Best Recommend news -----------
+
+ ---------- Recommend news ----------
+test37 cnt:135 / score 0.475241
+test17 cnt:132 / score 0.447840
+test19 cnt:188 / score 0.442869
+test20 cnt:175 / score 0.427068
+test38 cnt:355 / score 0.389160
+test16 cnt:177 / score 0.386215
+test40 cnt:184 / score 0.378799
+test28 cnt:218 / score 0.365119
+test0 cnt:144 / score 0.359486
+test15 cnt:253 / score 0.354698
+
+ ---------- New news ----------
+test6 cnt:161 / score 0.350886
+test3 cnt:34 / score 0.345171
+test31 cnt:292 / score 0.342474
+test21 cnt:158 / score 0.341217
+test12 cnt:151 / score 0.337439
+test34 cnt:33 / score 0.336271
+test41 cnt:190 / score 0.325008
+test8 cnt:33 / score 0.324298
+test39 cnt:162 / score 0.323943
+test35 cnt:151 / score 0.318997
+test29 cnt:167 / score 0.314065
+test23 cnt:55 / score 0.311884
+test26 cnt:279 / score 0.306288
+test22 cnt:133 / score 0.302019
+test47 cnt:70 / score 0.300523
+test33 cnt:21 / score 0.300249
+test45 cnt:235 / score 0.295877
+test44 cnt:221 / score 0.276998
+test46 cnt:193 / score 0.276193
+test49 cnt:50 / score 0.266307
+test30 cnt:117 / score 0.265254
+test7 cnt:185 / score 0.257255
+test42 cnt:281 / score 0.255018
+test9 cnt:81 / score 0.242776
+test14 cnt:473 / score 0.228771
+test2 cnt:330 / score 0.225335
+test43 cnt:54 / score 0.224021
+test11 cnt:126 / score 0.219120
+test4 cnt:134 / score 0.218573
+test1 cnt:128 / score 0.216613
+test5 cnt:131 / score 0.215403
+test48 cnt:288 / score 0.214243
+test10 cnt:121 / score 0.213930
+test27 cnt:263 / score 0.213595
+test25 cnt:89 / score 0.212898
+test24 cnt:156 / score 0.211615
+test18 cnt:82 / score 0.207674
+test36 cnt:120 / score 0.201029
+test32 cnt:220 / score 0.180201
+test13 cnt:76 / score 0.129105
+
+</pre>
+
 
 Schedule
 --------
