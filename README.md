@@ -52,8 +52,9 @@ How to Run the test program
 	- New news 		 -> 그외 새로 들어온 뉴스들
 	- 문서이름, 출몰한 단어수들 / 점수
 <pre>
-$ ./eval_test
- ---------- Best Recommend news -----------
+$ ./eval\_test
+
+----------- Best Recommend news -----------
 
  ---------- Recommend news ----------
 test37 cnt:135 / score 0.475241
